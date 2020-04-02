@@ -1,0 +1,5 @@
+<%= form_with model: @goal, url: goal_path(@goal), local: true do |f| %>
+  <%= f.text_field :title %>
+  <%= f.text_field :achievement %>
+  <%= f.submit "Update" %>
+<% end %>

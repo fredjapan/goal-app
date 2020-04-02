@@ -1,0 +1,38 @@
+<h1>My Goal App</h1>
+
+<h2>Weekly Goals</h2>
+
+<table>
+  <tr>
+    <td>
+      <p>#</p>
+    </td>
+    <td>
+      <p>Title</p>
+    </td>
+    <td>
+      <p>Achievment</p>
+    </td>
+    <td></td>
+  </tr>
+  <% @goals.each do |goal|%>
+    <tr>
+        <td>
+            <%= goal.id %>
+        </td>
+        <td>
+            <%= goal.title %>
+        </td>
+        <td>
+            <%= goal.achievement %>
+        </td>
+        <td>
+            <%= link_to  "Edit", edit_goal_path(goal) %>
+        </td>
+        <td>
+            <%= button_to  "Delete", goal_path(goal), method: :delete %>
+        </td>
+    </tr>
+  <%end%>
+</table>
+<%= link_to "Create", new_goal_path %>
