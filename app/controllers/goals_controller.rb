@@ -21,6 +21,11 @@ class GoalsController < ApplicationController
     redirect_to goals_path
   end
 
+  def show
+    id = params[:id]
+    @goal = Weeklygoal.find(id)
+  end
+
   def destroy
     id = params[:id]
     @goal = Weeklygoal.find(id)

@@ -1,6 +1,7 @@
 <h1>My Goal App</h1>
 
 <h2>Weekly Goals</h2>
+<p><%= link_to "Home", root_path %></p>
 
 <table>
   <tr>
@@ -22,6 +23,7 @@
         </td>
         <td>
             <%= goal.title %>
+            <%= link_to "goal.title", goal_path(goal) %>
         </td>
         <td>
             <%= goal.achievement %>
