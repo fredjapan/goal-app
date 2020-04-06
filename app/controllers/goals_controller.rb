@@ -43,6 +43,6 @@ class GoalsController < ApplicationController
   # permit list between create and update. Also, you can specialize
   # this method with per-user checking of permissible attributes.
   def goal_params
-    params.require(:weeklygoal).permit(:title, :achievement)
+    params.require(:weeklygoal).permit(:title, :achievement, :date)
   end
 end

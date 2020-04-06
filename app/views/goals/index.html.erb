@@ -14,27 +14,33 @@
     <td>
       <p>Achievment</p>
     </td>
+    <td>
+      <p>Date</p>
+    </td>
+    <td></td>
     <td></td>
   </tr>
   <% @i = 1%>
-  <% @goals.each do |goal,i|%>
+  <% @goals.each do |goal|%>
     <tr>
-        <td>
-            Goal #<%= @i %>
-        </td>
-        <td>
-            <%= goal.title %>
-            <%= link_to "goal.title", goal_path(goal) %>
-        </td>
-        <td>
-            <%= goal.achievement %>
-        </td>
-        <td>
-            <%= link_to  "Edit", edit_goal_path(goal) %>
-        </td>
-        <td>
-            <%= button_to  "Delete", goal_path(goal), method: :delete %>
-        </td>
+      <td>
+          Goal #<%= @i %>
+      </td>
+      <td>
+          <%= link_to goal.title, goal_path(goal) %>
+      </td>
+      <td>
+          <%= goal.achievement %>
+      </td>
+      <td>
+        <%= goal.date %>
+      </td>
+      <td>
+          <%= link_to  "Edit", edit_goal_path(goal) %>
+      </td>
+      <td>
+          <%= button_to  "Delete", goal_path(goal), method: :delete %>
+      </td>
     </tr>
   <% @i += 1 %>
   <%end%>
