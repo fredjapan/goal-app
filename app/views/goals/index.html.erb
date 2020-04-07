@@ -46,3 +46,51 @@
   <%end%>
 </table>
 <%= link_to "Create", new_goal_path %>
+
+<% @goals.group_by(&:week).sort.reverse.each do |week, goals| %>
+  <div id="week">
+    <h2>Week <%= week %></h2>
+    <table>
+      <tr>
+        <td>
+          <p>#</p>
+        </td>
+        <td>
+          <p>Title</p>
+        </td>
+        <td>
+          <p>Achievment</p>
+        </td>
+        <td>
+          <p>Date</p>
+        </td>
+        <td></td>
+        <td></td>
+      </tr>
+      <% @i = 1%>
+      <% goals.each do |goal|%>
+        <tr>
+          <td>
+            Goal #<%= @i %>
+          </td>
+          <td>
+            <%= link_to goal.title, goal_path(goal) %>
+          </td>
+          <td>
+            <%= goal.achievement %>
+          </td>
+          <td>
+            <%= goal.date %>
+          </td>
+          <td>
+            <%= link_to  "Edit", edit_goal_path(goal) %>
+          </td>
+          <td>
+            <%= button_to  "Delete", goal_path(goal), method: :delete %>
+          </td>
+        </tr>
+        <% @i += 1 %>
+      <%end%>
+    </table>
+  </div>
+<% end %>

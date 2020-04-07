@@ -1,5 +1,5 @@
 <%= form_with model: @goal, url: goals_path, local: true do |f| %>
-  <p>Date: <%= f.date_field :date %></p>
+  <p>Date: <%= f.date_field :date, :value => Time.now.strftime('%Y-%m-%d') %></p>
   <p>Title: <%= f.text_field :title %></p>
   <p>Achievement: <%= f.text_field :achievement %></p>
   <p><%= f.submit "New" %></p>
