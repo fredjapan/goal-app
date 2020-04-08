@@ -36,7 +36,6 @@ class GoalsController < ApplicationController
   def index
     @goals = Weeklygoal.all
   end
-  
 
   private
   # Using a private method to encapsulate the permissible parameters
