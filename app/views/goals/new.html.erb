@@ -4,12 +4,10 @@
   -->
   <p>Date:</p>
   <p>
-    <%= f.radio_button :date, :value => DateTime.current.to_date.end_of_week.strftime('%Y-%m-%d') %>
-    <%= label :date_thisweek, 'This Week' %>
+    <label><%= f.radio_button :date, DateTime.current.to_date.end_of_week.strftime('%Y-%m-%d'), :checked => true %>This Week</label>
   </p>
   <p>
-    <%= f.radio_button :date, :value => 1.week.from_now.to_date.end_of_week.strftime('%Y-%m-%d') %>
-    <%= label :date_nextweek, 'Next Week' %>
+    <label><%= f.radio_button :date, 1.week.from_now.to_date.end_of_week.strftime('%Y-%m-%d') %>Next Week</label>
   </p>
   <p>Title: <%= f.text_field :title %></p>
   <p>Achievement: <%= f.text_field :achievement %></p>
