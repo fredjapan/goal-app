@@ -34,7 +34,6 @@
           <p>Date</p>
         </td>
         <td></td>
-        <td></td>
       </tr>
       <% @i = 1%>
       <% goals.each do |goal|%>
@@ -56,9 +55,6 @@
           </td>
           <td>
             <%= link_to  "Edit", edit_goal_path(goal) %>
-          </td>
-          <td>
-            <%= button_to  "Delete", goal_path(goal), method: :delete %>
           </td>
         </tr>
         <% @i += 1 %>

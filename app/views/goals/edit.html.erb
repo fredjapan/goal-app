@@ -17,3 +17,5 @@
   <p><%= f.text_field :achievement %></p>
   <p><%= f.submit "Update" %></p>
 <% end %>
+<td>
+<%= button_to  "Delete", goal_path(@goal), method: :delete %>
