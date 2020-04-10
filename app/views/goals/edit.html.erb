@@ -1,6 +1,8 @@
 <%= form_with model: @goal, url: goal_path(@goal), local: true do |f| %>
-  <%= f.date_field :date %>
-  <%= f.text_field :title %>
-  <%= f.text_field :achievement %>
-  <%= f.submit "Update" %>
+  <p><%= f.date_field :date %></p>
+  <p><%= @goal.errors[:date].first %></p>
+  <p><%= f.text_field :title %></p>
+  <p><%= @goal.errors[:title].first %></p>
+  <p><%= f.text_field :achievement %></p>
+  <p><%= f.submit "Update" %></p>
 <% end %>

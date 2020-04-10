@@ -6,10 +6,12 @@ class GoalsController < ApplicationController
 
   def update
     id = params[:id]
-    #byebug
     @goal = Weeklygoal.find(id)
-    @goal.update!(goal_params)
-    redirect_to goals_path
+    if @goal.update(goal_params)
+      redirect_to goals_path
+    else
+      render 'edit'
+    end
   end
 
   def new
@@ -17,8 +19,12 @@ class GoalsController < ApplicationController
   end
 
   def create
-    @goal = Weeklygoal.create!(goal_params)
-    redirect_to goals_path
+    @goal = Weeklygoal.new(goal_params)
+    if @goal.save
+      redirect_to goals_path
+    else
+      render 'new'
+    end
   end
 
   def show
