@@ -3,6 +3,7 @@
   <p><%= @goal.errors[:date].first %></p>
   <p><%= f.text_field :title %></p>
   <p><%= @goal.errors[:title].first %></p>
+  <p><%= f.text_area :description %></p>
   <p><%= f.text_field :achievement %></p>
   <p><%= f.submit "Update" %></p>
 <% end %>

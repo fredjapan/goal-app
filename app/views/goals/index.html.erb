@@ -3,48 +3,6 @@
 <h2>Weekly Goals</h2>
 <p><%= link_to "Home", root_path %></p>
 
-<table>
-  <tr>
-    <td>
-      <p>#</p>
-    </td>
-    <td>
-      <p>Title</p>
-    </td>
-    <td>
-      <p>Achievment</p>
-    </td>
-    <td>
-      <p>Date</p>
-    </td>
-    <td></td>
-    <td></td>
-  </tr>
-  <% @i = 1%>
-  <% @goals.each do |goal|%>
-    <tr>
-      <td>
-          Goal #<%= @i %>
-      </td>
-      <td>
-          <%= link_to goal.title, goal_path(goal) %>
-      </td>
-      <td>
-          <%= goal.achievement %>
-      </td>
-      <td>
-        <%= goal.date %>
-      </td>
-      <td>
-          <%= link_to  "Edit", edit_goal_path(goal) %>
-      </td>
-      <td>
-          <%= button_to  "Delete", goal_path(goal), method: :delete %>
-      </td>
-    </tr>
-  <% @i += 1 %>
-  <%end%>
-</table>
 <%= link_to "Create", new_goal_path %>
 
 <% @goals.group_by(&:week_start).sort.reverse.each do |week_start, goals| %>
@@ -67,6 +25,9 @@
           <p>Title</p>
         </td>
         <td>
+          <p>Description</p>
+        </td>
+        <td>
           <p>Achievment</p>
         </td>
         <td>
@@ -83,6 +44,9 @@
           </td>
           <td>
             <%= link_to goal.title, goal_path(goal) %>
+          </td>
+          <td>
+            <%= goal.description %>
           </td>
           <td>
             <%= goal.achievement %>
