@@ -1,5 +1,18 @@
 <%= form_with model: @goal, url: goals_path, local: true do |f| %>
-  <%= f.text_field :title %>
-  <%= f.text_field :achievement %>
-  <%= f.submit "New" %>
+  <!--
+  <p>Date: <%= f.date_field :date, :value => Time.now.strftime('%Y-%m-%d') %></p>
+  -->
+  <p>Date:</p>
+  <p>
+    <label><%= f.radio_button :date, DateTime.current.to_date.end_of_week.strftime('%Y-%m-%d'), :checked => true %>This Week</label>
+  </p>
+  <p>
+    <label><%= f.radio_button :date, 1.week.from_now.to_date.end_of_week.strftime('%Y-%m-%d') %>Next Week</label>
+  </p>
+  <p><%= @goal.errors[:date].first %></p>
+  <p>Title: <%= f.text_field :title %></p>
+  <p><%= @goal.errors[:title].first %></p>
+  <p>Description: <%= f.text_area :description %></p>
+  <p>Achievement: <%= f.text_field :achievement %></p>
+  <p><%= f.submit "New" %></p>
 <% end %>

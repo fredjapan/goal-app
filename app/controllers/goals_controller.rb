@@ -1,35 +1,56 @@
 class GoalsController < ApplicationController
-  def edit
-    id = params[:id]
-    @goal = Weeklygoal.find(id)
-  end
 
-  def update
+  def index
+    @goals = Weeklygoal.all
+  end
+  
+  def show
     id = params[:id]
-    #byebug
     @goal = Weeklygoal.find(id)
-    @goal.update!(goal_params)
-    redirect_to goals_path
   end
 
   def new
     @goal = Weeklygoal.new
   end
 
+  def edit
+    id = params[:id]
+    @goal = Weeklygoal.find(id)
+  end
+
   def create
-    @goal = Weeklygoal.create!(goal_params)
-    redirect_to goals_path
+    @goal = Weeklygoal.new(goal_params)
+    if @goal.save
+      redirect_to goals_path
+    else
+      render 'new'
+    end
+  end
+
+  def update
+    id = params[:id]
+    @goal = Weeklygoal.find(id)
+    if @goal.update(goal_params)
+      redirect_to goals_path
+    else
+      render 'edit'
+    end
   end
 
   def destroy
-    id = params[:id]
-    @goal = Weeklygoal.find(id)
-    @goal.destroy!
+    byebug
+    @goal = Weeklygoal.find(params[:id])
+    @goal.destroy
     redirect_to goals_path
   end
 
-  def index
-    @goals = Weeklygoal.all
+  def edit_multiple
+    @goal = Weeklygoal.find(params[:goal_ids])
+  end
+
+  def update_multiple
+    @goal = Weeklygoal.update(params[:goal].keys, params[:goal].values)
+    redirect_to goals_path
   end
 
   private
@@ -38,6 +59,6 @@ class GoalsController < ApplicationController
   # permit list between create and update. Also, you can specialize
   # this method with per-user checking of permissible attributes.
   def goal_params
-    params.require(:weeklygoal).permit(:title, :achievement)
+    params.require(:weeklygoal).permit(:title, :description, :achievement, :date)
   end
 end

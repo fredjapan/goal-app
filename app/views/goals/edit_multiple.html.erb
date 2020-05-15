@@ -1,0 +1,62 @@
+<h1>Edit Weekly Goals</h1>
+
+<%= form_tag update_multiple_goals_path, method: :patch do %>
+  <table>
+    <tr>
+      <td>
+        <p>#</p>
+      </td>
+      <td>
+        <p>Title</p>
+      </td>
+      <td>
+        <p>Description</p>
+      </td>
+      <td>
+        <p>Achievment</p>
+      </td>
+      <td>
+        <p>Date</p>
+      </td>
+      <td></td>
+    </tr>
+    <% @i = 1%>
+    <% @goal.each do |goal| %>
+      <%= fields_for "goal[]", goal do |f| %>
+        <tr>
+          <td>
+            Goal #<%= @i %>
+            <%= hidden_field_tag "goal_ids[]", goal.id %>
+          </td>
+          <td>
+            <%= f.text_field :title %>
+          </td>
+          <td>
+            <%= f.text_area :description %>
+          </td>
+          <td>
+            <%= f.select :achievement, options_for_select(["Achieved", "Partially achieved", "Failed"], goal.achievement), include_blank: true %>
+          </td>
+          <td>
+            <% if goal.this_week? || goal.next_week? %>
+              <p>
+                <label><%= f.radio_button :date, DateTime.current.to_date.beginning_of_week.strftime('%Y-%m-%d'),
+                :checked => !!(goal.this_week?) %>This Week</label>
+              </p>
+              <p>
+                <label><%= f.radio_button :date, 1.week.from_now.to_date.end_of_week.strftime('%Y-%m-%d'),
+                :checked => !!(goal.next_week?) %>Next Week</label>
+              </p>
+            <%end%>
+          </td>
+          <td>
+            <%= link_to "Delete", goal_path(goal), method: :delete, remote: true %>
+          </td>
+        </tr>
+        <% @i += 1 %>
+      <% end %>
+    <% end %>
+  </table>
+  <%= submit_tag "Update" %>
+  <a href="./">Back</a>
+<% end %>

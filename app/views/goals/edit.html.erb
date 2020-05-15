@@ -1,5 +1,21 @@
 <%= form_with model: @goal, url: goal_path(@goal), local: true do |f| %>
-  <%= f.text_field :title %>
-  <%= f.text_field :achievement %>
-  <%= f.submit "Update" %>
+  <% if @goal.this_week? || @goal.next_week? %>
+  <p>Date:</p>
+    <p>
+      <label><%= f.radio_button :date, DateTime.current.to_date.beginning_of_week.strftime('%Y-%m-%d'),
+      :checked => !!(@goal.this_week?) %>This Week</label>
+    </p>
+    <p>
+      <label><%= f.radio_button :date, 1.week.from_now.to_date.end_of_week.strftime('%Y-%m-%d'),
+      :checked => !!(@goal.next_week?) %>Next Week</label>
+    </p>
+  <%end%>
+  <p><%= @goal.errors[:date].first %></p>
+  <p><%= f.text_field :title %></p>
+  <p><%= @goal.errors[:title].first %></p>
+  <p><%= f.text_area :description %></p>
+  <p><%= f.select :achievement, options_for_select(["Achieved", "Partially achieved", "Failed"], @goal.achievement), include_blank: true %></p>
+  <p><%= f.submit "Update" %></p>
 <% end %>
+<td>
+<%= link_to  "Delete", goal_path(@goal), method: :delete, remote: true %>
