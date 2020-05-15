@@ -38,7 +38,6 @@ class GoalsController < ApplicationController
   end
 
   def destroy
-    byebug
     @goal = Weeklygoal.find(params[:id])
     @goal.destroy
     redirect_to goals_path

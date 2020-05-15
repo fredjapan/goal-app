@@ -18,4 +18,4 @@
   <p><%= f.submit "Update" %></p>
 <% end %>
 <td>
-<%= link_to  "Delete", goal_path(@goal), method: :delete, remote: true %>
+<%= link_to  "Delete", goal_path(@goal), method: :delete, data: { confirm: "Are you sure?" }, remote: true %>
