@@ -1,7 +1,30 @@
 class GoalsController < ApplicationController
+
+  def index
+    @goals = Weeklygoal.all
+  end
+  
+  def show
+    id = params[:id]
+    @goal = Weeklygoal.find(id)
+  end
+
+  def new
+    @goal = Weeklygoal.new
+  end
+
   def edit
     id = params[:id]
     @goal = Weeklygoal.find(id)
+  end
+
+  def create
+    @goal = Weeklygoal.new(goal_params)
+    if @goal.save
+      redirect_to goals_path
+    else
+      render 'new'
+    end
   end
 
   def update
@@ -14,33 +37,20 @@ class GoalsController < ApplicationController
     end
   end
 
-  def new
-    @goal = Weeklygoal.new
-  end
-
-  def create
-    @goal = Weeklygoal.new(goal_params)
-    if @goal.save
-      redirect_to goals_path
-    else
-      render 'new'
-    end
-  end
-
-  def show
-    id = params[:id]
-    @goal = Weeklygoal.find(id)
-  end
-
   def destroy
-    id = params[:id]
-    @goal = Weeklygoal.find(id)
-    @goal.destroy!
+    byebug
+    @goal = Weeklygoal.find(params[:id])
+    @goal.destroy
     redirect_to goals_path
   end
 
-  def index
-    @goals = Weeklygoal.all
+  def edit_multiple
+    @goal = Weeklygoal.find(params[:goal_ids])
+  end
+
+  def update_multiple
+    @goal = Weeklygoal.update(params[:goal].keys, params[:goal].values)
+    redirect_to goals_path
   end
 
   private

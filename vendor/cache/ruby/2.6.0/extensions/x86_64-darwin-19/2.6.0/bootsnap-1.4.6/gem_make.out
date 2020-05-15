@@ -1,0 +1,15 @@
+current directory: /Users/fred/Projects/goal-app/vendor/cache/ruby/2.6.0/gems/bootsnap-1.4.6/ext/bootsnap
+/Users/fred/.rvm/rubies/ruby-2.6.3/bin/ruby -I /Users/fred/.rvm/rubies/ruby-2.6.3/lib/ruby/site_ruby/2.6.0 -r ./siteconf20200509-58704-4paaas.rb extconf.rb
+creating Makefile
+
+current directory: /Users/fred/Projects/goal-app/vendor/cache/ruby/2.6.0/gems/bootsnap-1.4.6/ext/bootsnap
+make "DESTDIR=" clean
+
+current directory: /Users/fred/Projects/goal-app/vendor/cache/ruby/2.6.0/gems/bootsnap-1.4.6/ext/bootsnap
+make "DESTDIR="
+compiling bootsnap.c
+linking shared-object bootsnap/bootsnap.bundle
+
+current directory: /Users/fred/Projects/goal-app/vendor/cache/ruby/2.6.0/gems/bootsnap-1.4.6/ext/bootsnap
+make "DESTDIR=" install
+/usr/local/opt/coreutils/bin/ginstall -c -m 0755 bootsnap.bundle ./.gem.20200509-58704-o8jfex/bootsnap

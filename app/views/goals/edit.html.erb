@@ -14,8 +14,8 @@
   <p><%= f.text_field :title %></p>
   <p><%= @goal.errors[:title].first %></p>
   <p><%= f.text_area :description %></p>
-  <p><%= f.text_field :achievement %></p>
+  <p><%= f.select :achievement, options_for_select(["Achieved", "Partially achieved", "Failed"], @goal.achievement), include_blank: true %></p>
   <p><%= f.submit "Update" %></p>
 <% end %>
 <td>
-<%= button_to  "Delete", goal_path(@goal), method: :delete %>
+<%= link_to  "Delete", goal_path(@goal), method: :delete, remote: true %>

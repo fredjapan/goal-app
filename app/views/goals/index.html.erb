@@ -1,6 +1,6 @@
-<h1>My Goal App</h1>
+<h1 class="is-size-1">My Goal App</h1>
 
-<h2>Weekly Goals</h2>
+<h2 class="is-size-2">Weekly Goals</h2>
 <p><%= link_to "Home", root_path %></p>
 
 <%= link_to "Create", new_goal_path %>
@@ -16,49 +16,57 @@
         Previous week ~ <%= week_start.end_of_week %>
       <% end %>
     </h2>
-    <table>
-      <tr>
-        <td>
-          <p>#</p>
-        </td>
-        <td>
-          <p>Title</p>
-        </td>
-        <td>
-          <p>Description</p>
-        </td>
-        <td>
-          <p>Achievment</p>
-        </td>
-        <td>
-          <p>Date</p>
-        </td>
-        <td></td>
-      </tr>
-      <% @i = 1%>
-      <% goals.each do |goal|%>
+    <%= form_tag edit_multiple_goals_path, method: :get do %>
+      <table>
         <tr>
-          <td>
-            Goal #<%= @i %>
-          </td>
-          <td>
-            <%= link_to goal.title, goal_path(goal) %>
-          </td>
-          <td>
-            <%= goal.description %>
-          </td>
-          <td>
-            <%= goal.achievement %>
-          </td>
-          <td>
-            <%= goal.date %>
-          </td>
-          <td>
-            <%= link_to  "Edit", edit_goal_path(goal) %>
-          </td>
+          <th>
+            <p>#</p>
+          </th>
+          <th>
+            <p>Title</p>
+          </th>
+          <th>
+            <p>Description</p>
+          </th>
+          <th>
+            <p>Achievment</p>
+          </th>
+          <th>
+            <p>Date</p>
+          </th>
+          <th></th>
         </tr>
-        <% @i += 1 %>
-      <%end%>
-    </table>
+        <% @i = 1%>
+        <% goals.each do |goal|%>
+          <tr>
+            <td>
+              Goal #<%= @i %>
+              <%= hidden_field_tag "goal_ids[]", goal.id %>
+            </td>
+            <td>
+              <%= link_to goal.title, goal_path(goal) %>
+            </td>
+            <td>
+              <%= goal.description %>
+            </td>
+            <td>
+              <%= goal.achievement %>
+            </td>
+            <td>
+              <%= goal.date %>
+            </td>
+            <td>
+              <%= link_to  "Edit", edit_goal_path(goal) %>
+            </td>
+          </tr>
+          <% @i += 1 %>
+        <%end%>
+      </table>
+      <%= submit_tag "Update goals", class: 'button is-primary' %>
+    <% end %>
   </div>
 <% end %>
+
+<div id="test">test</div>
+
+<button onclick="toggle_visibility('test')">Click me</button>

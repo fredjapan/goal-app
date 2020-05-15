@@ -3,9 +3,8 @@ document.onload = () => {
   document.querySelector("input").addEventListener("click", (e) => { alert('button clicked'); } )
 }
 
-function toggle_visibility(id) {
+window.toggle_visibility = function(id) {
   var e = document.getElementById(id);
-  console.log(e);
   if (e.style.display == 'block') {
     e.style.display = 'none';
   }
@@ -14,17 +13,17 @@ function toggle_visibility(id) {
   }
 }
 
-function showID(id) {
+window.showID = function(id) {
   var e = document.getElementById(id);
-  e.style.display = 'block';
+  id.style.display = 'block';
 }
 
-function hideID(id) {
+window.hideID = function(id) {
   var e = document.getElementById(id);
   e.style.display = 'none';
 }
 
 
-function myFunction(p1, p2) {
+window.myFunction = function(p1, p2) {
   return p1 * p2;   // The function returns the product of p1 and p2
 }
