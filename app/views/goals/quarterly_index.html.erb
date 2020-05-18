@@ -1,7 +1,7 @@
 <div class="level">
   <div class="level-left">
     <div class="level-item">
-      <h2 class="title">Weekly Goals</h2>
+      <h2 class="title">Quarterly Goals</h2>
     </div>
     <div class="level-item">
       <%= link_to "New Goal", new_goal_path, class: "button is-primary" %>
@@ -9,19 +9,19 @@
   </div>
 </div>
 
-<% @goals.group_by{ |u| u.date.beginning_of_week}.sort.reverse.each do |week_start, goals|%>
+<% @goals.group_by{ |u| u.date.beginning_of_quarter }.sort.reverse.each do |quarter_start, goals|%>
   <div id="week" class="container">
     <%= form_tag edit_multiple_goals_path, method: :get do %>
     <hr/>
     <div class="level">
       <div class="level-left">
         <h2 class="subtitle level-item">
-          <% if DateTime.current.to_date.beginning_of_week == week_start %>
-            This week
-          <% elsif DateTime.current.to_date.beginning_of_week + 1.week == week_start %>
-            Next week
+          <% if DateTime.current.to_date.beginning_of_quarter == quarter_start %>
+            This quarter
+          <% elsif DateTime.current.to_date.beginning_of_quarter + 3.month == quarter_start %>
+            Next quarter
           <% else %>
-            Previous week ~ <%= week_start.end_of_week %>
+            Previous quarter ~ <%= quarter_start.end_of_quarter %>
           <% end %>
         </h2>
       </div>
@@ -43,7 +43,7 @@
           <th>
             <p>Achievment</p>
           </th>
-          <th class="is-hidden">
+          <th class="">
             <p>Date</p>
           </th>
           <th class="is-hidden"></th>
@@ -71,13 +71,12 @@
               <% else %>
               <% end %>
             </td>
-            <td class="is-hidden">
+            <td class="">
               <%= goal.date %>
             </td>
             <td class="is-hidden">
               <%= link_to  "Edit", edit_goal_path(goal), class: "button is-link" %>
             </td>
-            <td><%= goal.horizon %></td>
           </tr>
           <% @i += 1 %>
         <%end%>

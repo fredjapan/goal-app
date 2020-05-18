@@ -1,2 +1,24 @@
 // the ~ means the location is the node_modules directory
-@import '~bulma'
+$menu-item-color: #fff;
+
+@import "~bulma/bulma";
+@import "~bulma-extensions/all";
+
+
+nav {
+  max-width: 240px;
+  background-color: $grey-dark;
+  min-height: 100vh;
+}
+nav .menu {
+  position: sticky;
+  top: 0px;
+}
+
+nav a {
+  color: $white;
+}
+
+.is-checkradio[type="radio"]+label:first-of-type {
+  margin-left: .5rem;
+}

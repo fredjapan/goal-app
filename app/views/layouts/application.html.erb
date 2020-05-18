@@ -7,10 +7,16 @@
 
     <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
   </head>
 
-  <body>
-    <%= yield %>
+  <body class="columns">
+    <nav class="column">
+      <%= render "shared/navigation" %>
+    </nav>
+    <div class="column section">
+      <%= yield %>
+    </div>
 
   </body>
 </html>

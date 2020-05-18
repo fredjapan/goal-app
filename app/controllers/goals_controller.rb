@@ -1,25 +1,25 @@
 class GoalsController < ApplicationController
 
   def index
-    @goals = Weeklygoal.all
+    @goals = Goal.where(horizon: "weekly")
   end
   
   def show
     id = params[:id]
-    @goal = Weeklygoal.find(id)
+    @goal = Goal.find(id)
   end
 
   def new
-    @goal = Weeklygoal.new
+    @goal = Goal.new
   end
 
   def edit
     id = params[:id]
-    @goal = Weeklygoal.find(id)
+    @goal = Goal.find(id)
   end
 
   def create
-    @goal = Weeklygoal.new(goal_params)
+    @goal = Goal.new(goal_params)
     if @goal.save
       redirect_to goals_path
     else
@@ -29,7 +29,7 @@ class GoalsController < ApplicationController
 
   def update
     id = params[:id]
-    @goal = Weeklygoal.find(id)
+    @goal = Goal.find(id)
     if @goal.update(goal_params)
       redirect_to goals_path
     else
@@ -38,18 +38,22 @@ class GoalsController < ApplicationController
   end
 
   def destroy
-    @goal = Weeklygoal.find(params[:id])
+    @goal = Goal.find(params[:id])
     @goal.destroy
     redirect_to goals_path
   end
 
   def edit_multiple
-    @goal = Weeklygoal.find(params[:goal_ids])
+    @goal = Goal.find(params[:goal_ids])
   end
 
   def update_multiple
-    @goal = Weeklygoal.update(params[:goal].keys, params[:goal].values)
+    @goal = Goal.update(params[:goal].keys, params[:goal].values)
     redirect_to goals_path
+  end
+
+  def quarterly_index
+    @goals = Goal.where(horizon: "quarterly")
   end
 
   private
@@ -58,6 +62,6 @@ class GoalsController < ApplicationController
   # permit list between create and update. Also, you can specialize
   # this method with per-user checking of permissible attributes.
   def goal_params
-    params.require(:weeklygoal).permit(:title, :description, :achievement, :date)
+    params.require(:goal).permit(:title, :description, :achievement, :date, :horizon)
   end
 end
