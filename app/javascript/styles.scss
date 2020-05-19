@@ -1,5 +1,6 @@
 // the ~ means the location is the node_modules directory
 $menu-item-color: #fff;
+$custom-dark: #151b26;
 
 @import "~bulma/bulma";
 @import "~bulma-extensions/all";
@@ -7,7 +8,7 @@ $menu-item-color: #fff;
 
 nav {
   max-width: 240px;
-  background-color: $grey-dark;
+  background-color: $custom-dark;
   min-height: 100vh;
 }
 nav .menu {

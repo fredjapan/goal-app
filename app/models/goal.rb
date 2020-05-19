@@ -12,4 +12,8 @@ class Goal < ActiveRecord::Base
     date >= 1.week.from_now.to_date.beginning_of_week && date <= 1.week.from_now.to_date.end_of_week
   end
 
+  def beginning_of_horizon(horizon)
+    send("beginning_of_#{horizon}")
+  end
+
 end

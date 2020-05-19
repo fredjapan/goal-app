@@ -1,13 +1,4 @@
-<div class="level">
-  <div class="level-left">
-    <div class="level-item">
-      <h2 class="title">Quarterly Goals</h2>
-    </div>
-    <div class="level-item">
-      <%= link_to "New Goal", new_goal_path, class: "button is-primary" %>
-    </div>
-  </div>
-</div>
+<%= render partial: "shared/goalheader", locals: {horizon: @horizon} %>
 
 <% @goals.group_by{ |u| u.date.beginning_of_quarter }.sort.reverse.each do |quarter_start, goals|%>
   <div id="week" class="container">
@@ -43,9 +34,6 @@
           <th>
             <p>Achievment</p>
           </th>
-          <th class="">
-            <p>Date</p>
-          </th>
           <th class="is-hidden"></th>
         </tr>
         <% @i = 1%>
@@ -70,9 +58,6 @@
                 <span class="tag is-danger is-light"><%= goal.achievement %></span>
               <% else %>
               <% end %>
-            </td>
-            <td class="">
-              <%= goal.date %>
             </td>
             <td class="is-hidden">
               <%= link_to  "Edit", edit_goal_path(goal), class: "button is-link" %>

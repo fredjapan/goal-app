@@ -1,7 +1,7 @@
 <div class="level">
   <div class="level-left">
     <div class="level-item">
-      <h2 class="title">Update Weekly Goals</h2>
+      <h2 class="title">Update <%= @horizon.capitalize+"ly" %> Goals</h2>
     </div>
   </div>
 </div>
@@ -33,7 +33,6 @@
         <tr>
           <td>
             Goal #<%= @i %>
-            <%= hidden_field_tag "goal_ids[]", goal.id %>
           </td>
           <td class="field">
             <div class="control">

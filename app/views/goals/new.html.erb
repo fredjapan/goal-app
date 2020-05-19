@@ -22,15 +22,14 @@
     </div>
   </div>
   <div class="field">
+    <label class="label">Horizon</label>
     <div class="control">
       <div class="select">
-        <%= f.select :horizon, options_for_select(["weekly", "quarterly"], @goal.horizon), include_blank: true %>
+        <%= f.select :horizon, options_for_select({"Weekly" => "week", "Quarterly" => "quarter"}, @goal.horizon), include_blank: true %>
       </div>
     </div>
   </div>
-    <!--
-  <p>Date: <%= f.date_field :date, :value => Time.now.strftime('%Y-%m-%d') %></p>
-  -->
+
   <div class="field">
     <label class="label">Due Date</label>
     <div class="control">
@@ -44,6 +43,15 @@
       </label>
     </div>
   </div>
+  <!--<div class="field">
+    <label class="label">Related goal</label>
+    <div class="control">
+      <div class="select">
+        <%= f.select :related_goal_id, options_from_collection_for_select(@related_goal, 'id', 'title'), include_blank: true %>
+      </div>
+    </div>
+  </div>-->
+  <br/>
   <div class="field is-grouped">
     <div class="control">
       <%= f.submit "Save", class: "button is-primary" %>

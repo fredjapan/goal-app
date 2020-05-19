@@ -1,3 +1,27 @@
-<h1>My Goal App</h1>
+<section class="hero">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">
+        My Goal App
+      </h1>
+      <h2 class="subtitle">
+        You are what you consistently do
+      </h2>
+    </div>
+  </div>
+</section>
 
-<a href="/goals">Weekly Goals</a>
+<div class="tile is-ancestor">
+  <div class="tile is-parent is-4">
+    <div class="tile is-child box">
+      <p class="subtitle">Number of weekly goals: </p>
+      <p class=""><%= Goal.where(horizon: "weekly").count %></p>
+    </div>
+  </div>
+  <div class="tile is-parent is-4">
+    <div class="tile is-child box">
+      <p class="subtitle">Number of quarterly goals: </p>
+      <p class=""><%= Goal.where(horizon: "quarterly").count %></p>
+    </div>
+  </div>
+</div>
