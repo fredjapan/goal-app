@@ -33,7 +33,7 @@ class GoalsController < ApplicationController
     id = params[:id]
     @goal = Goal.find(id)
     if @goal.update(goal_params)
-      redirect_to goals_path
+      redirect_to action: "index", horizon: @goal[:horizon]
     else
       render 'edit'
     end
@@ -42,7 +42,7 @@ class GoalsController < ApplicationController
   def destroy
     @goal = Goal.find(params[:id])
     @goal.destroy
-    redirect_to goals_path
+    redirect_to action: "index", horizon: @goal[:horizon]
   end
 
   def edit_multiple
@@ -51,13 +51,9 @@ class GoalsController < ApplicationController
   end
 
   def update_multiple
-    @goal = Goal.update(params[:goal].keys, params[:goal].values)
-    redirect_to goals_path
-  end
-
-  def quarterly_index
-    @goals = Goal.where(horizon: "quarterly")
     @horizon = params[:horizon]
+    @goal = Goal.update(params[:goal].keys, params[:goal].values)
+    redirect_to action: "index", horizon: @horizon
   end
 
   private

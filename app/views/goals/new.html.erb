@@ -57,7 +57,7 @@
       <%= f.submit "Save", class: "button is-primary" %>
     </div>
     <div class="control">
-      <a href="./" class="button">Cancel</a>
+      <%= link_to "Cancel", goals_path(horizon: @horizon), class: "button" %>
     </div>
   </div>
 <% end %>

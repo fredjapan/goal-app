@@ -6,7 +6,7 @@
   </div>
 </div>
 
-<%= form_tag update_multiple_goals_path, method: :patch do %>
+<%= form_with model: @goal, url: update_multiple_goals_path(horizon: @horizon), local: true, method: :patch do %>
   <table class="table is-fullwidth">
     <tr>
       <th>
@@ -85,7 +85,7 @@
       <%= submit_tag "Update", class: "button is-primary" %>
     </div>
     <div class="control">
-      <a href="./" class="button">Cancel</a>
+      <%= link_to "Cancel", goals_path(horizon: @horizon), class: "button" %>
     </div>
   </div>
 <% end %>
