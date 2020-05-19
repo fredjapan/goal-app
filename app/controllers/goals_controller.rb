@@ -6,11 +6,13 @@ class GoalsController < ApplicationController
   end
   
   def show
+    @horizon = params[:horizon]
     id = params[:id]
     @goal = Goal.find(id)
   end
 
   def new
+    @horizon = params[:horizon]
     @goal = Goal.new
     @related_goal = Goal.all
   end

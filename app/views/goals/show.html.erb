@@ -10,4 +10,4 @@
 <%= @goal.related_goal_id %>
 <h2>Achievement:</h2>
 <%= @goal.achievement %>
-<a href="./">Back</a>
+<%= link_to "Cancel", goals_path(horizon: @horizon), class: "button" %>

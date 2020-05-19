@@ -51,7 +51,7 @@
               <%= hidden_field_tag "horizon", @horizon %>
             </td>
             <td>
-              <%= link_to goal.title, goal_path(goal) %>
+              <%= link_to goal.title, goal_path(goal, horizon: @horizon) %>
             </td>
             <td>
               <%= goal.description %>
