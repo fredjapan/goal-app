@@ -57,12 +57,12 @@
                 <%= f.radio_button :date, DateTime.current.to_date.beginning_of_week.strftime('%Y-%m-%d'),
                 :checked => !!(goal.this_week?), id: "radio-thisweek-#{goal.id}", class: "is-checkradio" %>
                 <label for="radio-thisweek-<%= goal.id %>">
-                  This Week
+                  This <%= @horizon %>
                 </label>
                 <%= f.radio_button :date, 1.week.from_now.to_date.end_of_week.strftime('%Y-%m-%d'),
                 :checked => !!(goal.next_week?), id: "radio-nextweek-#{goal.id}", class: "is-checkradio" %>
                 <label for="radio-nextweek-<%= goal.id %>">
-                  Next Week
+                  Next <%= @horizon %>
                 </label>
               </div>
             <%end%>

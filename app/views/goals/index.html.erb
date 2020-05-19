@@ -1,18 +1,18 @@
 <%= render partial: "shared/goalheader", locals: {horizon: @horizon} %>
 
-<% @goals.group_by{ |u| u.date.beginning_of_week}.sort.reverse.each do |week_start, goals|%>
-  <div id="week" class="container">
+<% @goals.group_by{ |u| u.date.beginning_of_week}.sort.reverse.each do |term_start, goals|%>
+  <div id="term-group" class="container">
     <%= form_with model: @goal, url: edit_multiple_goals_path, local: true, method: :get do %>
     <hr/>
     <div class="level">
       <div class="level-left">
         <h2 class="subtitle level-item">
-          <% if DateTime.current.to_date.beginning_of_week == week_start %>
-            This week
-          <% elsif DateTime.current.to_date.beginning_of_week + 1.week == week_start %>
-            Next week
+          <% if DateTime.current.to_date.beginning_of_week == term_start %>
+            This <%= @horizon %>
+          <% elsif DateTime.current.to_date.beginning_of_week + 1.week == term_start %>
+            Next <%= @horizon %>
           <% else %>
-            Previous week ~ <%= week_start.end_of_week %>
+            Previous <%= @horizon %> ~ <%= term_start.end_of_week %>
           <% end %>
         </h2>
       </div>
@@ -23,7 +23,6 @@
       <table class="table is-fullwidth">
         <tr>
           <th>
-            <p>#</p>
           </th>
           <th>
             <p>Title</p>
@@ -37,7 +36,7 @@
           <th>
             <p>Achievment</p>
           </th>
-          <th class="is-hidden">
+          <th class="">
             <p>Date</p>
           </th>
           <th class="is-hidden"></th>
@@ -46,7 +45,7 @@
         <% goals.each do |goal|%>
           <tr>
             <td>
-              Goal #<%= @i %>
+              #<%= @i %>
               <%= hidden_field_tag "goal_ids[]", goal.id %>
               <%= hidden_field_tag "horizon", @horizon %>
             </td>
@@ -57,7 +56,9 @@
               <%= goal.description %>
             </td>
             <td>
-              <%= goal.related_goal_id %>
+              <% if goal.related_goal_id.present? == true %>
+                <%= link_to @allgoals.find(goal.related_goal_id).title, goal_path(id: goal.related_goal_id,horizon: @horizon) %>
+              <% end %>
             </td>
             <td>
               <% if goal.achievement == "Achieved" %>
@@ -69,7 +70,7 @@
               <% else %>
               <% end %>
             </td>
-            <td class="is-hidden">
+            <td class="">
               <%= goal.date %>
             </td>
             <td class="is-hidden">

@@ -25,7 +25,7 @@
     <label class="label">Horizon</label>
     <div class="control">
       <div class="select">
-        <%= f.select :horizon, options_for_select({"Weekly" => "week", "Quarterly" => "quarter"}, @goal.horizon), include_blank: true %>
+        <%= f.select :horizon, options_for_select({"Weekly" => "week", "Quarterly" => "quarter", "Yearly" => "year"}, @horizon), include_blank: true %>
       </div>
     </div>
   </div>
@@ -33,24 +33,24 @@
   <div class="field">
     <label class="label">Due Date</label>
     <div class="control">
-      <%= f.radio_button :date, DateTime.current.to_date.end_of_week.strftime('%Y-%m-%d'), :checked => true, id:"radio-thisweek", class: "is-checkradio" %>
-      <label for="radio-thisweek">
-        This Week
+      <%= f.radio_button :date, DateTime.current.to_date.end_of_week.strftime('%Y-%m-%d'), :checked => true, id:"radio-this", class: "is-checkradio" %>
+      <label for="radio-this">
+        This <%= @horizon.capitalize %>
       </label>
-      <%= f.radio_button :date, 1.week.from_now.to_date.end_of_week.strftime('%Y-%m-%d'), id:"radio-nextweek", class: "is-checkradio" %>
-      <label for="radio-nextweek">
-        Next Week
+      <%= f.radio_button :date, 1.week.from_now.to_date.end_of_week.strftime('%Y-%m-%d'), id:"radio-next", class: "is-checkradio" %>
+      <label for="radio-next">
+        Next <%= @horizon.capitalize %>
       </label>
     </div>
   </div>
-  <!--<div class="field">
+  <div class="field">
     <label class="label">Related goal</label>
     <div class="control">
       <div class="select">
         <%= f.select :related_goal_id, options_from_collection_for_select(@related_goal, 'id', 'title'), include_blank: true %>
       </div>
     </div>
-  </div>-->
+  </div>
   <br/>
   <div class="field is-grouped">
     <div class="control">

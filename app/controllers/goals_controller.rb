@@ -3,6 +3,7 @@ class GoalsController < ApplicationController
   def index
     @horizon = params[:horizon]
     @goals = Goal.where(horizon: @horizon)
+    @allgoals = Goal.all
   end
   
   def show
@@ -14,7 +15,13 @@ class GoalsController < ApplicationController
   def new
     @horizon = params[:horizon]
     @goal = Goal.new
-    @related_goal = Goal.all
+    if @horizon == "week"
+      @related_goal = Goal.where(horizon: "quarter")
+    elsif @horizon == "quarter"
+      @related_goal = Goal.where(horizon: "year")
+    elsif @horizon == "year"
+      @related_goal = Goal.where(horizon: "life")
+    end
   end
 
   def edit
