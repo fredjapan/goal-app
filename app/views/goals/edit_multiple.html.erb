@@ -72,7 +72,7 @@
           <td class="field">
             <div class="control">
               <div class="select">
-                <%= f.select :achievement, options_for_select(["Achieved", "Partially achieved", "Failed"], goal.achievement), include_blank: true %>
+                <%= f.select :achievement, options_for_select({"Achieved" => "achieved", "Partially achieved" => "partially achieved", "Failed" => "failed"}, goal.achievement), include_blank: true %>
               </div>
             </div>
           </td>

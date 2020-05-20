@@ -63,12 +63,12 @@
                 <% end %>
               </td>
               <td>
-                <% if goal.achievement == "Achieved" %>
-                  <span class="tag is-success is-light"><%= goal.achievement %></span>
-                <% elsif goal.achievement == "Partially achieved" %>
-                  <span class="tag is-warning is-light"><%= goal.achievement %></span>
-                <% elsif goal.achievement == "Failed" %>
-                  <span class="tag is-danger is-light"><%= goal.achievement %></span>
+                <% if goal.achievement == "achieved" %>
+                  <span class="tag is-success is-light"><%= goal.achievement.capitalize %></span>
+                <% elsif goal.achievement == "partially achieved" %>
+                  <span class="tag is-warning is-light"><%= goal.achievement.capitalize %></span>
+                <% elsif goal.achievement == "failed" %>
+                  <span class="tag is-danger is-light"><%= goal.achievement.capitalize %></span>
                 <% else %>
                 <% end %>
               </td>
