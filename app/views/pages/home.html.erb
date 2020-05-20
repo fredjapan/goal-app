@@ -14,21 +14,29 @@
 <div class="tile is-ancestor">
   <div class="tile is-parent is-4">
     <div class="tile is-child box">
-      <p class="subtitle">Weekly goals: </p>
+      <p class="subtitle">Weekly goals</p>
       <p class="">Total number: <%= @goal_week_count %></p>
-      <p class="">% Achieved: <%= @goal_week_count %></p>
+      <p class="">Achieved: <%= number_to_percentage(@goal_week_achieved_percentage * 100, precision: 0) %></p>
+      <p class="">Partially achieved: <%= number_to_percentage(@goal_week_partiallyachieved_percentage * 100, precision: 0) %></p>
+      <p class="">Failed: <%= number_to_percentage(@goal_week_failed_percentage * 100, precision: 0) %></p>
     </div>
   </div>
   <div class="tile is-parent is-4">
     <div class="tile is-child box">
-      <p class="subtitle">Number of quarterly goals: </p>
+      <p class="subtitle">Quarterly goals</p>
       <p class=""><%= @goal_quarter_count %></p>
+      <p class="">Achieved: <%= number_to_percentage(@goal_quarter_achieved_percentage * 100, precision: 0) %></p>
+      <p class="">Partially achieved: <%= number_to_percentage(@goal_quarter_partiallyachieved_percentage * 100, precision: 0) %></p>
+      <p class="">Failed: <%= number_to_percentage(@goal_quarter_failed_percentage * 100, precision: 0) %></p>
     </div>
   </div>
   <div class="tile is-parent is-4">
     <div class="tile is-child box">
-      <p class="subtitle">Number of yearly goals: </p>
+      <p class="subtitle">Yearly goals</p>
       <p class=""><%= @goal_year_count %></p>
+      <p class="">Achieved: <%= number_to_percentage(@goal_year_achieved_percentage * 100, precision: 0) %></p>
+      <p class="">Partially achieved: <%= number_to_percentage(@goal_year_partiallyachieved_percentage * 100, precision: 0) %></p>
+      <p class="">Failed: <%= number_to_percentage(@goal_year_failed_percentage * 100, precision: 0) %></p>
     </div>
   </div>
 </div>
