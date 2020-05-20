@@ -6,7 +6,7 @@
   </div>
 </div>
 
-<%= form_with model: @goal, url: goals_path, local: true do |f| %>
+<%= form_with(model: @goal, url: goals_path, id: "new-goal-form", local: true) do |f| %>
   <p><%= @goal.errors[:date].first %></p>
   <div class="field">
     <label class="label">Title</label>
@@ -25,7 +25,8 @@
     <label class="label">Horizon</label>
     <div class="control">
       <div class="select">
-        <%= f.select :horizon, options_for_select({"Weekly" => "week", "Quarterly" => "quarter", "Yearly" => "year"}, @horizon), include_blank: true %>
+        <%= hidden_field_tag :horizon, params[:horizon] %>
+        <%= f.select :horizon, options_for_select({"Weekly" => "week", "Quarterly" => "quarter", "Yearly" => "year"}, @horizon), include_blank: true, onchange: "$(this.form).submit()" %>
       </div>
     </div>
   </div>
@@ -61,3 +62,21 @@
     </div>
   </div>
 <% end %>
+
+<script>
+$(document).ready(function(){
+   //when select option is chosen, set radio button to selected.
+   $("#goal_horizon").click(function(){
+       var option = $(this).children("option:selected").val()
+        if(option == "quarterly"){
+           $("#radio-next").prop("checked", true);
+        }
+    )}
+)};
+</script>
+
+<script>
+function myFunction() {
+  alert("Page is loaded");
+}
+</script>

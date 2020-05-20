@@ -15,13 +15,19 @@
   <div class="tile is-parent is-4">
     <div class="tile is-child box">
       <p class="subtitle">Number of weekly goals: </p>
-      <p class=""><%= Goal.where(horizon: "weekly").count %></p>
+      <p class=""><%= Goal.where(horizon: "week").count %></p>
     </div>
   </div>
   <div class="tile is-parent is-4">
     <div class="tile is-child box">
       <p class="subtitle">Number of quarterly goals: </p>
-      <p class=""><%= Goal.where(horizon: "quarterly").count %></p>
+      <p class=""><%= Goal.where(horizon: "quarter").count %></p>
+    </div>
+  </div>
+  <div class="tile is-parent is-4">
+    <div class="tile is-child box">
+      <p class="subtitle">Number of yearly goals: </p>
+      <p class=""><%= Goal.where(horizon: "year").count %></p>
     </div>
   </div>
 </div>
