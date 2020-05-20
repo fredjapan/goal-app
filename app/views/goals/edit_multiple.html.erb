@@ -19,13 +19,13 @@
         <p>Description</p>
       </th>
       <th>
-        <p>Achievment</p>
+        <p>Related Goal</p>
       </th>
       <th>
         <p>Date</p>
       </th>
       <th>
-        <p>Related Goal</p>
+        <p>Achievement</p>
       <th>
       </th>
     </tr>
@@ -49,7 +49,7 @@
           <td class="field">
             <div class="control">
               <div class="select">
-                <%= f.select :achievement, options_for_select(["Achieved", "Partially achieved", "Failed"], goal.achievement), include_blank: true %>
+                <%= f.select :related_goal_id, options_from_collection_for_select(@related_goal, 'id', 'title', goal.related_goal_id), include_blank: true %>
               </div>
             </div>
           </td>
@@ -72,7 +72,7 @@
           <td class="field">
             <div class="control">
               <div class="select">
-                <%= f.select :related_goal_id, options_from_collection_for_select(@related_goal, 'id', 'title', goal.related_goal_id), include_blank: true %>
+                <%= f.select :achievement, options_for_select(["Achieved", "Partially achieved", "Failed"], goal.achievement), include_blank: true %>
               </div>
             </div>
           </td>
