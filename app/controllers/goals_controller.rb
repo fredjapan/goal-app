@@ -67,10 +67,13 @@ class GoalsController < ApplicationController
     @goal = Goal.find(params[:goal_ids])
     if @horizon == "week"
       @related_goal = Goal.where(horizon: "quarter")
+      @related_goal_name = "quarter"
     elsif @horizon == "quarter"
       @related_goal = Goal.where(horizon: "year")
+      @related_goal_name = "year"
     elsif @horizon == "year"
       @related_goal = Goal.where(horizon: "life")
+      @related_goal_name = "life"
     end
   end
 
