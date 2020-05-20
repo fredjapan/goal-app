@@ -6,6 +6,12 @@
   </div>
 </div>
 
+<div class="buttons has-addons">
+  <a href="/goals/new?horizon=week" class="button <%= 'is-select is-info' if @horizon == 'week' %>">Weekly</a>
+  <a href="/goals/new?horizon=quarter" class="button <%= 'is-select is-info' if @horizon == 'quarter' %>">Quarterly</a>
+  <a href="/goals/new?horizon=year" class="button <%= 'is-select is-info' if @horizon == 'year' %>">Yearly</a>
+</div>
+
 <%= form_with(model: @goal, url: goals_path, id: "new-goal-form", local: true) do |f| %>
   <p><%= @goal.errors[:date].first %></p>
   <div class="field">
@@ -21,29 +27,27 @@
       <%= f.text_area :description, class: "textarea"%>
     </div>
   </div>
+
   <div class="field">
-    <label class="label">Horizon</label>
     <div class="control">
-      <div class="select">
-        <%= hidden_field_tag :horizon, params[:horizon] %>
-        <%= f.select :horizon, options_for_select({"Weekly" => "week", "Quarterly" => "quarter", "Yearly" => "year"}, @horizon), include_blank: true, onchange: "$(this.form).submit()" %>
-      </div>
+        <%= f.hidden_field :horizon, :value => params[:horizon] %>
     </div>
   </div>
 
   <div class="field">
     <label class="label">Due Date</label>
     <div class="control">
-      <%= f.radio_button :date, DateTime.current.to_date.end_of_week.strftime('%Y-%m-%d'), :checked => true, id:"radio-this", class: "is-checkradio" %>
+      <%= f.radio_button :date, DateTime.current.to_date.send("end_of_#{@horizon}").strftime('%Y-%m-%d'), :checked => true, id:"radio-this", class: "is-checkradio" %>
       <label for="radio-this">
         This <%= @horizon.capitalize %>
       </label>
-      <%= f.radio_button :date, 1.week.from_now.to_date.end_of_week.strftime('%Y-%m-%d'), id:"radio-next", class: "is-checkradio" %>
+      <%= f.radio_button :date, next_term("#{@horizon}").from_now.to_date.send("end_of_#{@horizon}").strftime('%Y-%m-%d'), id:"radio-next", class: "is-checkradio" %>
       <label for="radio-next">
         Next <%= @horizon.capitalize %>
       </label>
     </div>
   </div>
+
   <div class="field">
     <label class="label">Related goal</label>
     <div class="control">
@@ -52,7 +56,9 @@
       </div>
     </div>
   </div>
+
   <br/>
+  
   <div class="field is-grouped">
     <div class="control">
       <%= f.submit "Save", class: "button is-primary" %>
@@ -62,21 +68,3 @@
     </div>
   </div>
 <% end %>
-
-<script>
-$(document).ready(function(){
-   //when select option is chosen, set radio button to selected.
-   $("#goal_horizon").click(function(){
-       var option = $(this).children("option:selected").val()
-        if(option == "quarterly"){
-           $("#radio-next").prop("checked", true);
-        }
-    )}
-)};
-</script>
-
-<script>
-function myFunction() {
-  alert("Page is loaded");
-}
-</script>

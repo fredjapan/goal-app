@@ -30,6 +30,7 @@ class GoalsController < ApplicationController
   end
 
   def create
+    @horizon = params[:horizon]
     @goal = Goal.new(goal_params)
     if @goal.save
       redirect_to action: "index", horizon: @goal[:horizon]
