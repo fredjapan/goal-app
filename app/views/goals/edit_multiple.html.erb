@@ -25,6 +25,8 @@
         <p>Date</p>
       </th>
       <th>
+        <p>Related Goal</p>
+      <th>
       </th>
     </tr>
     <% @i = 1%>
@@ -66,6 +68,13 @@
                 </label>
               </div>
             <%end%>
+          </td>
+          <td class="field">
+            <div class="control">
+              <div class="select">
+                <%= f.select :related_goal_id, options_from_collection_for_select(@related_goal, 'id', 'title', goal.related_goal_id), include_blank: true %>
+              </div>
+            </div>
           </td>
           <td>
             <%= link_to goal_path(goal), method: :delete, data: { confirm: "Delete Goal: #{goal.title}?" }, remote: true, class: "button is-danger is-small is-outlined" do %>

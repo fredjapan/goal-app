@@ -65,6 +65,13 @@ class GoalsController < ApplicationController
   def edit_multiple
     @horizon = params[:horizon]
     @goal = Goal.find(params[:goal_ids])
+    if @horizon == "week"
+      @related_goal = Goal.where(horizon: "quarter")
+    elsif @horizon == "quarter"
+      @related_goal = Goal.where(horizon: "year")
+    elsif @horizon == "year"
+      @related_goal = Goal.where(horizon: "life")
+    end
   end
 
   def update_multiple
