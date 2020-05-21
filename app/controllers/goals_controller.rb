@@ -15,12 +15,23 @@ class GoalsController < ApplicationController
   def new
     @horizon = params[:horizon]
     @goal = Goal.new
-    if @horizon == "week"
-      @related_goal = Goal.where(horizon: "quarter")
-    elsif @horizon == "quarter"
-      @related_goal = Goal.where(horizon: "year")
-    elsif @horizon == "year"
-      @related_goal = Goal.where(horizon: "life")
+    def related_goal(horizon)
+      if horizon == "week"
+        related_horizon = "quarter"
+      elsif horizon == "quarter"
+        related_horizon = "year"
+      elsif horizon == "year"
+        related_horizon = "life"
+      end
+      if horizon == "week" || horizon == "quarter"
+        Goal.where(horizon: related_horizon).where('date >= ?', DateTime.current.to_date.send("beginning_of_#{related_horizon}"))
+      elsif
+        Goal.where(horizon: related_horizon)
+      end
+    end
+    @related_goal = []
+    if related_goal(@horizon).present?
+      @related_goal = related_goal(@horizon)
     end
   end
 
