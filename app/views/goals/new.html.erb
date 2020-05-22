@@ -12,7 +12,7 @@
   <a href="/goals/new?horizon=year" class="button <%= 'is-select is-info' if @horizon == 'year' %>">Yearly</a>
 </div>
 
-<%= form_with(model: @goal, url: goals_path, id: "new-goal-form", local: true) do |f| %>
+<%= form_with model: @goal, url: goals_path(horizon: @horizon), id: "new-goal-form", local: true do |f| %>
   <p><%= @goal.errors[:date].first %></p>
   <div class="field">
     <label class="label">Title</label>

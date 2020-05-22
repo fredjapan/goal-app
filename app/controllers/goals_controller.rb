@@ -2,7 +2,17 @@ class GoalsController < ApplicationController
 
   def index
     @horizon = params[:horizon]
-    @goals = Goal.where(horizon: @horizon)
+    @term = params[:term]
+    def goals_scope(horizon, term)
+      if term == "term_previous"
+        Goal.where(horizon: horizon).where('date < ?', DateTime.current.to_date.send("beginning_of_#{horizon}"))
+      elsif term == "term_next"
+        Goal.where(horizon: horizon).where('date > ?', DateTime.current.to_date.send("end_of_#{horizon}"))
+      else
+        Goal.where(horizon: horizon).where('date >= ?', DateTime.current.to_date.send("beginning_of_#{horizon}")).where('date < ?', DateTime.current.to_date.send("end_of_#{horizon}"))
+      end
+    end
+    @goals = goals_scope(@horizon, @term)
     @allgoals = Goal.all
   end
   

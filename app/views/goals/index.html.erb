@@ -1,26 +1,36 @@
 <%= render partial: "shared/goalheader", locals: {horizon: @horizon} %>
 
-<% if DateTime.current.to_date.respond_to?("beginning_of_#{@horizon}") %>
-  <% @goals.group_by{ |goal| goal.date.send("beginning_of_#{@horizon}")}.sort.reverse.each do |term_start, goals|%>
-    <div id="term-group" class="container">
-      <%= form_with model: @goal, url: edit_multiple_goals_path, local: true, method: :get do %>
-      <hr/>
-      <div class="level">
-        <div class="level-left">
-          <h2 class="subtitle level-item">
-            <% if DateTime.current.to_date.send("beginning_of_#{@horizon}") == term_start %>
-              This <%= @horizon %>
-            <% elsif DateTime.current.to_date.send("beginning_of_#{@horizon}") + next_term("#{@horizon}") == term_start %>
-              Next <%= @horizon %>
-            <% else %>
-              Previous <%= @horizon %> ~ <%= term_start.send("end_of_#{@horizon}") %>
-            <% end %>
-          </h2>
+<div class="tabs is-medium is-boxed">
+  <ul>
+    <li class="<% if params[:term] == "term_previous" %>is-active<% end %>">
+      <a href="/goals?horizon=<%= @horizon %>&term=term_previous">Previous <%= @horizon.capitalize.+"s" %></a>
+    </li>
+    <li class="<% if params[:term] == "term_this" %>is-active<% end %>">
+      <a href="/goals?horizon=<%= @horizon %>&term=term_this">This <%= @horizon.capitalize %></a>
+    </li>
+    <li class="<% if params[:term] == "term_next" %>is-active<% end %>">
+      <a href="/goals?horizon=<%= @horizon %>&term=term_next">Next <%= @horizon.capitalize %></a>
+    </li>
+  </ul>
+</div>
+
+<% @goals.group_by{ |goal| goal.date.send("beginning_of_#{@horizon}")}.sort.reverse.each do |term_start, goals|%>
+  <div id="term-group" class="container">
+    <%= form_with model: @goal, url: edit_multiple_goals_path, local: true, method: :get do %>
+      <div class="<%= term_start %>">
+        <div class="level">
+          <div class="level-left">
+            <div class="level-item">
+              <%= @horizon.capitalize%> until ~
+              <%= term_start.send("end_of_#{@horizon}") %>
+            </div>
+          </div>
+          <div class="level-right">
+            <div class="level-item">
+              <%= submit_tag "Update goals", class: "button is-small is-outlined is-primary level-item" %>
+            </div>
+          </div>
         </div>
-        <div class="level-right">
-          <%= submit_tag "Update goals", class: "button is-small is-outlined is-primary level-item" %>
-        </div>
-      </div>
         <table class="table is-fullwidth">
           <tr>
             <th>
@@ -52,7 +62,6 @@
               </td>
               <td>
                 <%= link_to goal.title, goal_path(goal, horizon: @horizon) %>
-
               </td>
               <td>
                 <%= goal.description %>
@@ -82,8 +91,20 @@
             <% @i += 1 %>
           <%end%>
         </table>
+        <hr/>
         <br/>
-      <% end %>
-    </div>
-  <% end %>
+      </div>
+    <% end %>
+  </div>
 <% end %>
+
+<script>
+  $(function() {
+   $("li").click(function() {
+      $("li").removeClass("is-active");
+      $("term is-active").addClass("is-hidden");
+      $("term is-hidden").removeClass("is-hidden");
+      $(this).addClass("is-active");
+   });
+  });
+</script>
