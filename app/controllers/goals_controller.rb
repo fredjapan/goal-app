@@ -9,7 +9,7 @@ class GoalsController < ApplicationController
       elsif term == "term_next"
         Goal.where(horizon: horizon).where('date > ?', DateTime.current.to_date.send("end_of_#{horizon}"))
       else
-        Goal.where(horizon: horizon).where('date >= ?', DateTime.current.to_date.send("beginning_of_#{horizon}")).where('date < ?', DateTime.current.to_date.send("end_of_#{horizon}"))
+        Goal.where(horizon: horizon).where('date >= ?', DateTime.current.to_date.send("beginning_of_#{horizon}")).where('date <= ?', DateTime.current.to_date.send("end_of_#{horizon}"))
       end
     end
     @goals = goals_scope(@horizon, @term)
