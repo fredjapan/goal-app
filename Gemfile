@@ -57,3 +57,5 @@ gem "bulma-rails", "~> 0.8.0"
 gem 'bulma-extensions-rails'
 
 gem 'jquery-rails'
+
+gem 'kaminari'

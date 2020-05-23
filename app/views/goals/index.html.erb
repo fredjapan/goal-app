@@ -64,7 +64,7 @@
                 <%= link_to goal.title, goal_path(goal, horizon: @horizon) %>
               </td>
               <td>
-                <%= goal.description %>
+                <%= simple_format(goal.description) %>
               </td>
               <td>
                 <% if goal.related_goal_id.present? == true %>

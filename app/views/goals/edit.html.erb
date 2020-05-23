@@ -18,7 +18,7 @@
   <p><%= f.submit "Update" %></p>
 <% end %>
 <td>
-<%= link_to goal_path(goal, horizon: @horizon), method: :delete, data: { confirm: "Delete Goal: #{goal.title}?" }, remote: true, class: "button is-danger is-small is-outlined" do %>
+<%= link_to goal_path(@goal, horizon: @horizon), method: :delete, data: { confirm: "Delete Goal: #{@goal.title}?" }, remote: true, class: "button is-danger is-small is-outlined" do %>
   <span>Delete</span>
   <span class="icon">
     <i class="fas fa-times"></i>

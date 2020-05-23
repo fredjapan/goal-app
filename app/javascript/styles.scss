@@ -6,17 +6,17 @@ $custom-dark: #151b26;
 @import "~bulma-extensions/src/sass";
 
 
-nav {
+.navigation {
   max-width: 240px;
   background-color: $custom-dark;
   min-height: 100vh;
 }
-nav .menu {
+.navigation .menu {
   position: sticky;
   top: 0px;
 }
 
-nav a {
+.navigation a {
   color: $white;
 }
 
