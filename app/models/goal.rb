@@ -1,15 +1,16 @@
 class Goal < ActiveRecord::Base
+  include GoalsHelper
 
   validates :title, presence: {message: "Goals must have a title."}
   validates :date, presence: {message: "Goals must have a deadline."}
   validates :horizon, presence: {message: "Goals must have a horizon."}
 
-  def this_week?
-    date >= DateTime.current.to_date.beginning_of_week && date <= DateTime.current.to_date.end_of_week
+  def this_term?(horizon)
+    date >= DateTime.current.to_date.send("beginning_of_#{horizon}") && date <= DateTime.current.to_date.send("end_of_#{horizon}")
   end
 
-  def next_week?
-    date >= 1.week.from_now.to_date.beginning_of_week && date <= 1.week.from_now.to_date.end_of_week
+  def next_term?(horizon)
+    date >= next_term(horizon).from_now.to_date.send("beginning_of_#{horizon}") && date <= next_term(horizon).from_now.to_date.send("end_of_#{horizon}")
   end
 
 end

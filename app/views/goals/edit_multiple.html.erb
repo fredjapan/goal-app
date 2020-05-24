@@ -49,20 +49,21 @@
           <td class="field">
             <div class="control">
               <div class="select">
+                
                 <%= f.select :related_goal_id, options_from_collection_for_select(@related_goal, 'id', 'title', goal.related_goal_id), include_blank: true %>
               </div>
             </div>
           </td>
           <td class="field">
-            <% if goal.this_week? || goal.next_week? %>
+            <% if goal.this_term?(@horizon) || goal.next_term?(@horizon) %>
               <div class="control">
-                <%= f.radio_button :date, DateTime.current.to_date.beginning_of_week.strftime('%Y-%m-%d'),
-                :checked => !!(goal.this_week?), id: "radio-thisweek-#{goal.id}", class: "is-checkradio" %>
+                <%= f.radio_button :date, DateTime.current.to_date.send("beginning_of_#{@horizon}").strftime('%Y-%m-%d'),
+                :checked => !!(goal.this_term?(@horizon)), id: "radio-thisweek-#{goal.id}", class: "is-checkradio" %>
                 <label for="radio-thisweek-<%= goal.id %>">
                   This <%= @horizon %>
                 </label>
-                <%= f.radio_button :date, 1.week.from_now.to_date.end_of_week.strftime('%Y-%m-%d'),
-                :checked => !!(goal.next_week?), id: "radio-nextweek-#{goal.id}", class: "is-checkradio" %>
+                <%= f.radio_button :date, next_term(@horizon).from_now.to_date.send("end_of_#{@horizon}").strftime('%Y-%m-%d'),
+                :checked => !!(goal.next_term?(@horizon)), id: "radio-nextweek-#{goal.id}", class: "is-checkradio" %>
                 <label for="radio-nextweek-<%= goal.id %>">
                   Next <%= @horizon %>
                 </label>
@@ -77,7 +78,7 @@
             </div>
           </td>
           <td>
-            <%= link_to goal_path(goal), method: :delete, data: { confirm: "Delete Goal: #{goal.title}?" }, remote: true, class: "button is-danger is-small is-outlined" do %>
+            <%= link_to goal_path(goal, term: params[:term]), method: :delete, data: { confirm: "Delete Goal: #{goal.title}?" }, remote: true, class: "button is-danger is-small is-outlined" do %>
               <span>Delete</span>
               <span class="icon is-small">
                 <i class="fas fa-times"></i>

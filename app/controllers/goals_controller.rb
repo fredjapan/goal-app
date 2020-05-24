@@ -14,6 +14,7 @@ class GoalsController < ApplicationController
     end
     @goals = goals_scope(@horizon, @term)
     @allgoals = Goal.all
+    @lifegoals = LifeGoal.all
   end
   
   def show
@@ -35,8 +36,8 @@ class GoalsController < ApplicationController
       end
       if horizon == "week" || horizon == "quarter"
         Goal.where(horizon: related_horizon).where('date >= ?', DateTime.current.to_date.send("beginning_of_#{related_horizon}"))
-      elsif
-        Goal.where(horizon: related_horizon)
+      elsif horizon == "year"
+        LifeGoal.all
       end
     end
     @related_goal = []
@@ -54,7 +55,12 @@ class GoalsController < ApplicationController
     @horizon = params[:horizon]
     @goal = Goal.new(goal_params)
     if @goal.save
-      redirect_to action: "index", horizon: @goal[:horizon]
+      redirect_to action: "index", horizon: @goal[:horizon], term: 
+        if @goal.date >= DateTime.current.to_date.send("beginning_of_#{@horizon}") && @goal.date <= DateTime.current.to_date.send("end_of_#{@horizon}")
+          "term_this"
+        elsif @goal.date >= helpers.next_term(@horizon).from_now.to_date.send("beginning_of_#{@horizon}") && @goal.date <= helpers.next_term(@horizon).from_now.to_date.send("end_of_#{@horizon}")
+          "term_next"
+        end
     else
       render 'new'
     end
@@ -72,15 +78,24 @@ class GoalsController < ApplicationController
 
   def destroy
     @goal = Goal.find(params[:id])
-    if Goal.where(related_goal_id: params[:id]).present?
-      @children_goals = Goal.where(related_goal_id: params[:id])
+    if Goal.where(related_goal_id: params[:id]).where.not(horizon: "year").present?
+      @children_goals = Goal.where(related_goal_id: params[:id]).where.not(horizon: "year")
       @children_goals.each do |children_goal|
         children_goal[:related_goal_id] = nil
         children_goal.save
       end
     end
     @goal.destroy
-    redirect_to action: "index", horizon: @goal[:horizon]
+    redirect_to action: "index", horizon: @goal[:horizon], term: 
+    if @goal.date >= DateTime.current.to_date.send("beginning_of_#{@goal[:horizon]}") && @goal.date <= DateTime.current.to_date.send("end_of_#{@goal[:horizon]}")
+      "term_this"
+    elsif @goal.date >= helpers.next_term(@goal[:horizon]).from_now.to_date.send("beginning_of_#{@goal[:horizon]}") && @goal.date <= helpers.next_term(@goal[:horizon]).from_now.to_date.send("end_of_#{@goal[:horizon]}")
+      "term_next"
+    elsif @goal.date < DateTime.current.to_date.send("beginning_of_#{@goal[:horizon]}")
+      "term_previous"
+    else
+      "term_this"
+    end
   end
 
   def edit_multiple
@@ -93,15 +108,16 @@ class GoalsController < ApplicationController
       @related_goal = Goal.where(horizon: "year")
       @related_goal_name = "year"
     elsif @horizon == "year"
-      @related_goal = Goal.where(horizon: "life")
+      @related_goal = LifeGoal.all
       @related_goal_name = "life"
     end
   end
 
   def update_multiple
     @horizon = params[:horizon]
+    @term = params[:term]
     @goal = Goal.update(params[:goal].keys, params[:goal].values)
-    redirect_to action: "index", horizon: @horizon
+    redirect_to action: "index", horizon: @horizon, term: @term
   end
 
   private

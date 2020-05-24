@@ -39,6 +39,13 @@ class LifeGoalsController < ApplicationController
 
   def destroy
     @life_goal = LifeGoal.find(params[:id])
+    if Goal.where(horizon: "year").where(related_goal_id: params[:id]).present?
+      @children_goals = Goal.where(horizon: "year").where(related_goal_id: params[:id])
+      @children_goals.each do |children_goal|
+        children_goal[:related_goal_id] = nil
+        children_goal.save
+      end
+    end
     @life_goal.destroy
     redirect_to action: "index"
   end
