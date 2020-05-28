@@ -21,6 +21,18 @@ class GoalsController < ApplicationController
     @horizon = params[:horizon]
     id = params[:id]
     @goal = Goal.find(id)
+    if @goal.related_goal_id.present?
+      if @horizon == "week" ||  @horizon == "quarter"
+        @parent_goal = Goal.find(@goal.related_goal_id)
+      elsif @horizon == "year"
+        @parent_goal = LifeGoal.find(@goal.related_goal_id)
+      end
+    else
+      @parent_goal =""
+    end
+    respond_to do |format|
+      format.js
+    end
   end
 
   def new

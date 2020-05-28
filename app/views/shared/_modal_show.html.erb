@@ -1,0 +1,40 @@
+<div class="level">
+  <div class="level-left">
+    <div class="level-item">
+      <div class="title is-3 is-spaced"><%= @goal.title %></div>
+    </div>
+  </div>
+  <div class="level-right">
+    <div class="level-item">
+      <% if @goal.achievement == "achieved" %>
+        <div class="tag is-success is-light"><%= @goal.achievement.capitalize %></div>
+      <% elsif @goal.achievement == "partially achieved" %>
+        <div class="tag is-warning is-light"><%= @goal.achievement.capitalize %></div>
+      <% elsif @goal.achievement == "failed" %>
+        <div class="tag is-danger is-light"><%= @goal.achievement.capitalize %></div>
+      <% else %>
+        <div class="tag is-light">Not achieved yet</div>
+      <% end %>
+    </div>
+  </div>
+</div>
+    
+<div class="columns">
+  <div class="column">
+    <div class=""><strong>Due Date </strong></div>
+    <div><%= @goal.date %></div>
+  </div>
+  <div class="column">
+    <div class=""><strong>Parent Goal </strong></div>
+    <div>
+      <% if @parent_goal.present? %>
+        <%= @parent_goal.title %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="">
+  <div class=""><strong>Description </strong></div>
+  <div><%= @goal.description %></div>
+</div>

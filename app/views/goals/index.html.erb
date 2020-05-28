@@ -2,13 +2,13 @@
 
 <div class="tabs is-medium is-boxed">
   <ul>
-    <li class="<% if params[:term] == "term_previous" %>is-active<% end %>">
+    <li class="term-selector <% if params[:term] == "term_previous" %>is-active<% end %>">
       <a href="/goals?horizon=<%= @horizon %>&term=term_previous">Previous <%= @horizon.capitalize.+"s" %></a>
     </li>
-    <li class="<% if params[:term] == "term_this" %>is-active<% end %>">
+    <li class="term-selector <% if params[:term] == "term_this" %>is-active<% end %>">
       <a href="/goals?horizon=<%= @horizon %>&term=term_this">This <%= @horizon.capitalize %></a>
     </li>
-    <li class="<% if params[:term] == "term_next" %>is-active<% end %>">
+    <li class="term-selector <% if params[:term] == "term_next" %>is-active<% end %>">
       <a href="/goals?horizon=<%= @horizon %>&term=term_next">Next <%= @horizon.capitalize %></a>
     </li>
   </ul>
@@ -42,7 +42,7 @@
               <p>Description</p>
             </th>
             <th>
-              <p>Realted to</p>
+              <p>Parent Goal</p>
             </th>
             <th>
               <p>Achievment</p>
@@ -61,7 +61,7 @@
                 <%= hidden_field_tag "horizon", @horizon %>
               </td>
               <td>
-                <%= link_to goal.title, goal_path(goal, horizon: @horizon) %>
+                <%= link_to goal.title, goal_path(goal, horizon: @horizon), class: "modal-button",remote: true %>
               </td>
               <td>
                 <%= simple_format(goal.description) %>
@@ -102,13 +102,19 @@
   </div>
 <% end %>
 
-<script>
-  $(function() {
-   $("li").click(function() {
-      $("li").removeClass("is-active");
-      $("term is-active").addClass("is-hidden");
-      $("term is-hidden").removeClass("is-hidden");
-      $(this).addClass("is-active");
-   });
-  });
-</script>
+    <div id="modal-window" class="modal">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Goal Details</p>
+          <button class="delete" aria-label="close"></button>
+        </header>
+        <section id="modal-content" class="modal-card-body">
+          <!-- Content ... -->
+        </section>
+        <footer class="modal-card-foot">
+          <button class="button is-info">Edit</button>
+          <button class="button">Close</button>
+        </footer>
+      </div>
+    </div>
