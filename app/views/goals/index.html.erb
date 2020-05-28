@@ -69,9 +69,9 @@
               <td>
                 <% if goal.related_goal_id.present? == true %>
                   <% if @horizon == "year" %>
-                    <%= link_to @lifegoals.find(goal.related_goal_id).title, life_goal_path(id: goal.related_goal_id) %>
+                    <%= link_to @lifegoals.find(goal.related_goal_id).title, life_goal_path(goal.related_goal_id), class: "modal-button",remote: true %>
                   <% else%>
-                    <%= link_to @allgoals.find(goal.related_goal_id).title, goal_path(id: goal.related_goal_id,horizon: @horizon) %>
+                    <%= link_to @allgoals.find(goal.related_goal_id).title, goal_path(goal.related_goal_id,horizon: @horizon), class: "modal-button",remote: true %>
                   <% end %>
                 <% end %>
               </td>
