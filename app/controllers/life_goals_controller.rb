@@ -14,6 +14,9 @@ class LifeGoalsController < ApplicationController
 
   def new
     @life_goal = LifeGoal.new
+    respond_to do |format|
+      format.js
+    end
   end
 
   def create

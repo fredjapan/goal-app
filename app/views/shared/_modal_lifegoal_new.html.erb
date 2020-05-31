@@ -1,0 +1,38 @@
+<div class="buttons has-addons">
+  <%= link_to "Weekly", new_goal_path(horizon: "week"), remote: true, class: "button modal-button #{'is-select is-info' if @horizon == 'week'}" %>
+  <%= link_to "Quarterly", new_goal_path(horizon: "quarter"), remote: true, class: "button modal-button #{'is-select is-info' if @horizon == 'quarter'}" %>
+  <%= link_to "Yearly", new_goal_path(horizon: "year"), remote: true, class: "button modal-button #{'is-select is-info' if @horizon == 'year'}" %>
+  <%= link_to "Life", new_life_goal_path, remote: true, class: "button modal-button #{'is-select is-info' if request.path_info.include?('life_goals')}" %>
+</div>
+
+<%= form_with model: @life_goal, url: life_goals_path, id: "new-life-goal-form", local: true do |f| %>
+  <div class="field">
+    <label class="heading">ROLE - I want to be...</label>
+    <div class="control">
+      <%= f.text_field :title, class: "input"%>
+    </div>
+  </div>
+  <div class="field">
+    <label class="heading">WHAT - It looks/feels like...</label>
+    <div class="control">
+      <%= f.text_area :what, class: "textarea"%>
+    </div>
+  </div>
+    <div class="field">
+    <label class="heading">WHY - In order to...</label>
+    <div class="control">
+      <%= f.text_area :why, class: "textarea"%>
+    </div>
+  </div>
+
+  <br/>
+  
+  <div class="field is-grouped">
+    <div class="control">
+      <%= f.submit "Save", class: "button is-primary is-hidden", id: "new-save-button" %>
+    </div>
+    <div class="control">
+      <%= link_to "Cancel", life_goals_path, class: "button is-hidden" %>
+    </div>
+  </div>
+<% end %>
