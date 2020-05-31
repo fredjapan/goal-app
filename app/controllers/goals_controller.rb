@@ -26,6 +26,7 @@ class GoalsController < ApplicationController
   
   def show
     @horizon = params[:horizon]
+    @term = params[:term]
     id = params[:id]
     @goal = Goal.find(id)
     if @goal.related_goal_id.present?
@@ -63,21 +64,37 @@ class GoalsController < ApplicationController
     if related_goal(@horizon).present?
       @related_goal = related_goal(@horizon)
     end
+    respond_to do |format|
+      format.js
+    end
   end
 
   def edit
     @horizon = params[:horizon]
+    @term = params[:term]
     id = params[:id]
     @goal = Goal.find(id)
-    if @horizon == "week"
-      @related_goal = Goal.where(horizon: "quarter")
-      @related_horizon = "quarter"
-    elsif @horizon == "quarter"
-      @related_goal = Goal.where(horizon: "year")
-      @related_horizon = "year"
-    elsif @horizon == "year"
-      @related_goal = LifeGoal.all
-      @related_horizon = "life"
+    def related_goal(horizon)
+      if horizon == "week"
+        related_horizon = "quarter"
+      elsif horizon == "quarter"
+        related_horizon = "year"
+      elsif horizon == "year"
+        related_horizon = "life"
+      end
+      if horizon == "week" || horizon == "quarter"
+        if @term == "term_previous"
+          Goal.where(horizon: related_horizon)
+        elsif @term == "term_this" || "term_next"
+          Goal.where(horizon: related_horizon).where('date >= ?', DateTime.current.to_date.send("beginning_of_#{related_horizon}"))
+        end
+      elsif horizon == "year"
+        LifeGoal.all
+      end
+    end
+    @related_goal = []
+    if related_goal(@horizon).present?
+      @related_goal = related_goal(@horizon)
     end
     respond_to do |format|
       format.js
