@@ -59,12 +59,24 @@ class GoalsController < ApplicationController
   end
 
   def edit
+    @horizon = params[:horizon]
     id = params[:id]
     @goal = Goal.find(id)
+    if @horizon == "week"
+      @related_goal = Goal.where(horizon: "quarter")
+    elsif @horizon == "quarter"
+      @related_goal = Goal.where(horizon: "year")
+    elsif @horizon == "year"
+      @related_goal = LifeGoal.all
+    end
+    respond_to do |format|
+      format.js
+    end
   end
 
   def create
     @horizon = params[:horizon]
+    @term = params[:term]
     @goal = Goal.new(goal_params)
     if @goal.save
       redirect_to action: "index", horizon: @goal[:horizon], term: 
@@ -79,10 +91,11 @@ class GoalsController < ApplicationController
   end
 
   def update
+    @term = params[:term]
     id = params[:id]
     @goal = Goal.find(id)
     if @goal.update(goal_params)
-      redirect_to action: "index", horizon: @goal[:horizon]
+      redirect_to action: "index", horizon: @goal[:horizon], term: @term
     else
       render 'edit'
     end
@@ -138,6 +151,6 @@ class GoalsController < ApplicationController
   # permit list between create and update. Also, you can specialize
   # this method with per-user checking of permissible attributes.
   def goal_params
-    params.require(:goal).permit(:title, :description, :achievement, :date, :horizon, :related_goal_id)
+    params.require(:goal).permit(:title, :description, :achievement, :date, :horizon, :related_goal_id, :term)
   end
 end

@@ -7,6 +7,9 @@ class LifeGoalsController < ApplicationController
   def show
     id = params[:id]
     @life_goal = LifeGoal.find(id)
+    respond_to do |format|
+      format.js
+    end
   end
 
   def new

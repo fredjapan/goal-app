@@ -21,11 +21,11 @@
     
 <div class="columns">
   <div class="column">
-    <div class=""><strong>Due Date </strong></div>
+    <div class="heading"><strong>Due Date </strong></div>
     <div><%= @goal.date %></div>
   </div>
   <div class="column">
-    <div class=""><strong>Parent Goal </strong></div>
+    <div class="heading"><strong>Parent Goal </strong></div>
     <div>
       <% if @parent_goal.present? %>
         <%= @parent_goal.title %>
@@ -34,7 +34,10 @@
   </div>
 </div>
 
-<div class="">
-  <div class=""><strong>Description </strong></div>
+<div>
+  <div class="heading"><strong>Description </strong></div>
   <div><%= @goal.description %></div>
 </div>
+
+
+

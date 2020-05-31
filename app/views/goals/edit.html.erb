@@ -1,13 +1,13 @@
 <%= form_with model: @goal, url: goal_path(@goal), local: true do |f| %>
-  <% if @goal.this_week? || @goal.next_week? %>
+  <% if @goal.this_term?(@horizon) || @goal.next_term?(@horizon) %>
   <p>Date:</p>
     <p>
       <label><%= f.radio_button :date, DateTime.current.to_date.beginning_of_week.strftime('%Y-%m-%d'),
-      :checked => !!(@goal.this_week?) %>This Week</label>
+      :checked => !!(@goal.this_term?(@horizon)) %>This Week</label>
     </p>
     <p>
       <label><%= f.radio_button :date, 1.week.from_now.to_date.end_of_week.strftime('%Y-%m-%d'),
-      :checked => !!(@goal.next_week?) %>Next Week</label>
+      :checked => !!(@goal.next_term?(@horizon)) %>Next Week</label>
     </p>
   <%end%>
   <p><%= @goal.errors[:date].first %></p>
