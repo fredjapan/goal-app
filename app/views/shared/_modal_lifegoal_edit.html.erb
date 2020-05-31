@@ -1,0 +1,35 @@
+<%= form_with model: @life_goal, url: life_goal_path(@life_goal), local: true do |f| %>
+  
+  <div class="field"> 
+    <p class="heading">Title</p>
+    <div class="control">
+      <%= f.text_field :title, class: "input" %>
+    </div>
+    <p><%= @life_goal.errors[:title].first %></p>
+  </div>
+
+  <div class="field">
+    <p class="heading">What</p>
+    <div class="control">
+      <%= f.text_area :what, class: "textarea" %>
+    </div>
+  </div>
+
+   <div class="field">
+    <p class="heading">Why</p>
+    <div class="control">
+      <%= f.text_area :why, class: "textarea" %>
+    </div>
+  </div>
+
+  <!-- this submit button is triggered from the button in the _modal_goal_edit_save partial -->
+  <p class="is-hidden"><%= f.submit "Update", id: "edit-form-update" %></p>
+
+<% end %>
+
+<%= link_to life_goal_path(@life_goal), method: :delete, data: { confirm: "Delete Goal: #{@life_goal.title}?" }, class: "button is-danger is-small is-hidden", id: "goal-delete-button" do %>
+  <span>Delete</span>
+  <span class="icon is-small">
+    <i class="fas fa-times"></i>
+  </span>
+<% end %>
