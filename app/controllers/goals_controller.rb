@@ -3,6 +3,13 @@ class GoalsController < ApplicationController
   def index
     @horizon = params[:horizon]
     @term = params[:term]
+    if @horizon == "week"
+      @related_horizon = "quarter"
+    elsif @horizon == "quarter"
+      @related_horizon = "year"
+    elsif @horizon == "year"
+      @related_horizon = "life"
+    end
     def goals_scope(horizon, term)
       if term == "term_previous"
         Goal.where(horizon: horizon).where('date < ?', DateTime.current.to_date.send("beginning_of_#{horizon}"))
@@ -64,10 +71,13 @@ class GoalsController < ApplicationController
     @goal = Goal.find(id)
     if @horizon == "week"
       @related_goal = Goal.where(horizon: "quarter")
+      @related_horizon = "quarter"
     elsif @horizon == "quarter"
       @related_goal = Goal.where(horizon: "year")
+      @related_horizon = "year"
     elsif @horizon == "year"
       @related_goal = LifeGoal.all
+      @related_horizon = "life"
     end
     respond_to do |format|
       format.js
@@ -91,11 +101,19 @@ class GoalsController < ApplicationController
   end
 
   def update
+    @horizon = params[:horizon]
     @term = params[:term]
     id = params[:id]
     @goal = Goal.find(id)
     if @goal.update(goal_params)
-      redirect_to action: "index", horizon: @goal[:horizon], term: @term
+      redirect_to action: "index", horizon: @goal[:horizon], term: 
+      if @goal.date >= DateTime.current.to_date.send("beginning_of_#{@horizon}") && @goal.date <= DateTime.current.to_date.send("end_of_#{@horizon}")
+        "term_this"
+      elsif @goal.date >= helpers.next_term(@horizon).from_now.to_date.send("beginning_of_#{@horizon}") && @goal.date <= helpers.next_term(@horizon).from_now.to_date.send("end_of_#{@horizon}")
+        "term_next"
+      elsif @goal.date < DateTime.current.to_date.send("beginning_of_#{@horizon}")
+        "term_previous"
+      end
     else
       render 'edit'
     end
@@ -142,7 +160,7 @@ class GoalsController < ApplicationController
     @horizon = params[:horizon]
     @term = params[:term]
     @goal = Goal.update(params[:goal].keys, params[:goal].values)
-    redirect_to action: "index", horizon: @horizon, term: @term
+    redirect_to action: "index", horizon: @horizon, term: "term_this"
   end
 
   private

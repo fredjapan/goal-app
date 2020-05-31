@@ -1,4 +1,4 @@
-<%= form_with model: @goal, url: goal_path(@goal), local: true do |f| %>
+<%= form_with model: @goal, url: goal_path(@goal, horizon: @horizon), local: true do |f| %>
   
   <div class="field"> 
     <p class="heading">Title</p>
