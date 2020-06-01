@@ -62,12 +62,12 @@
             <th class="is-hidden"></th>
           </tr>
           <% @i = 1%>
+          <%= hidden_field_tag "horizon", @horizon %>
           <% goals.each do |goal|%>
             <tr>
               <td>
                 #<%= @i %>
                 <%= hidden_field_tag "goal_ids[]", goal.id %>
-                <%= hidden_field_tag "horizon", @horizon %>
               </td>
               <td>
                 <%= link_to goal.title, goal_path(goal, horizon: @horizon, term: @term), class: "modal-button",remote: true %>
