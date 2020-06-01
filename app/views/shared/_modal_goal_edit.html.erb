@@ -1,3 +1,4 @@
+<% @term = params[:term] %>
 <%= form_with model: @goal, url: goal_path(@goal, horizon: @horizon), local: true do |f| %>
   
   <div class="field"> 
@@ -19,7 +20,7 @@
     <p class="heading">Parent Goal</p>
     <div class="control"> 
       <div class="select">
-        <%= f.select :related_goal_id, options_from_collection_for_select(@related_goal, 'id', 'title', @goal.related_goal_id), include_blank: true %>
+        <%= f.select :parent_goal_id, options_from_collection_for_select(@parent_goals, 'id', 'title', @goal.parent_goal_id), include_blank: true %>
       </div>
     </div>
   </div>

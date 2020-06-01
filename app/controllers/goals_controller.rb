@@ -3,13 +3,6 @@ class GoalsController < ApplicationController
   def index
     @horizon = params[:horizon]
     @term = params[:term]
-    if @horizon == "week"
-      @related_horizon = "quarter"
-    elsif @horizon == "quarter"
-      @related_horizon = "year"
-    elsif @horizon == "year"
-      @related_horizon = "life"
-    end
     def goals_scope(horizon, term)
       if term == "term_previous"
         Goal.where(horizon: horizon).where('date < ?', DateTime.current.to_date.send("beginning_of_#{horizon}"))
@@ -29,15 +22,7 @@ class GoalsController < ApplicationController
     @term = params[:term]
     id = params[:id]
     @goal = Goal.find(id)
-    if @goal.related_goal_id.present?
-      if @horizon == "week" ||  @horizon == "quarter"
-        @parent_goal = Goal.find(@goal.related_goal_id)
-      elsif @horizon == "year"
-        @parent_goal = LifeGoal.find(@goal.related_goal_id)
-      end
-    else
-      @parent_goal =""
-    end
+    @parent_goal = parent_goal(@goal.parent_goal_id, @horizon)
     respond_to do |format|
       format.js
     end
@@ -46,23 +31,9 @@ class GoalsController < ApplicationController
   def new
     @horizon = params[:horizon]
     @goal = Goal.new
-    def related_goal(horizon)
-      if horizon == "week"
-        related_horizon = "quarter"
-      elsif horizon == "quarter"
-        related_horizon = "year"
-      elsif horizon == "year"
-        related_horizon = "life"
-      end
-      if horizon == "week" || horizon == "quarter"
-        Goal.where(horizon: related_horizon).where('date >= ?', DateTime.current.to_date.send("beginning_of_#{related_horizon}"))
-      elsif horizon == "year"
-        LifeGoal.all
-      end
-    end
-    @related_goal = []
-    if related_goal(@horizon).present?
-      @related_goal = related_goal(@horizon)
+    @parent_goals = []
+    if parent_goals(@horizon, "term_this").present?
+      @parent_goals = parent_goals(@horizon, "term_this")
     end
     respond_to do |format|
       format.js
@@ -74,27 +45,9 @@ class GoalsController < ApplicationController
     @term = params[:term]
     id = params[:id]
     @goal = Goal.find(id)
-    def related_goal(horizon)
-      if horizon == "week"
-        related_horizon = "quarter"
-      elsif horizon == "quarter"
-        related_horizon = "year"
-      elsif horizon == "year"
-        related_horizon = "life"
-      end
-      if horizon == "week" || horizon == "quarter"
-        if @term == "term_previous"
-          Goal.where(horizon: related_horizon)
-        elsif @term == "term_this" || "term_next"
-          Goal.where(horizon: related_horizon).where('date >= ?', DateTime.current.to_date.send("beginning_of_#{related_horizon}"))
-        end
-      elsif horizon == "year"
-        LifeGoal.all
-      end
-    end
-    @related_goal = []
-    if related_goal(@horizon).present?
-      @related_goal = related_goal(@horizon)
+    @parent_goals = []
+    if parent_goals(@horizon, @term).present?
+      @parent_goals = parent_goals(@horizon, @term)
     end
     respond_to do |format|
       format.js
@@ -138,10 +91,10 @@ class GoalsController < ApplicationController
 
   def destroy
     @goal = Goal.find(params[:id])
-    if Goal.where(related_goal_id: params[:id]).where.not(horizon: "year").present?
-      @children_goals = Goal.where(related_goal_id: params[:id]).where.not(horizon: "year")
+    if Goal.where(parent_goal_id: params[:id]).where.not(horizon: "year").present?
+      @children_goals = Goal.where(parent_goal_id: params[:id]).where.not(horizon: "year")
       @children_goals.each do |children_goal|
-        children_goal[:related_goal_id] = nil
+        children_goal[:parent_goal_id] = nil
         children_goal.save
       end
     end
@@ -161,16 +114,8 @@ class GoalsController < ApplicationController
   def edit_multiple
     @horizon = params[:horizon]
     @goal = Goal.find(params[:goal_ids])
-    if @horizon == "week"
-      @related_goal = Goal.where(horizon: "quarter")
-      @related_goal_name = "quarter"
-    elsif @horizon == "quarter"
-      @related_goal = Goal.where(horizon: "year")
-      @related_goal_name = "year"
-    elsif @horizon == "year"
-      @related_goal = LifeGoal.all
-      @related_goal_name = "life"
-    end
+    @parent_horizon = parent_horizon(@horizon)
+    @parent_goals = parent_goals(@horizon, "term_previous")
   end
 
   def update_multiple
@@ -186,6 +131,45 @@ class GoalsController < ApplicationController
   # permit list between create and update. Also, you can specialize
   # this method with per-user checking of permissible attributes.
   def goal_params
-    params.require(:goal).permit(:title, :description, :achievement, :date, :horizon, :related_goal_id, :term)
+    params.require(:goal).permit(:title, :description, :achievement, :date, :horizon, :parent_goal_id, :term)
   end
+
+  def parent_horizon(horizon)
+    if horizon == "week"
+      "quarter"
+    elsif horizon == "quarter"
+      "year"
+    elsif horizon == "year"
+      "life"
+    end
+  end
+
+  def parent_goals(horizon, term)
+    if horizon == "week" || horizon == "quarter"
+      if term == "term_previous"
+        Goal.where(horizon: parent_horizon(horizon))
+      elsif term == "term_this" || term == "term_next"
+        Goal.where(horizon: parent_horizon(horizon)).where('date >= ?', DateTime.current.to_date.send("beginning_of_#{parent_horizon(horizon)}"))
+      end
+    elsif horizon == "year"
+      LifeGoal.all
+    end
+  end
+
+  def parent_goal(parent_goal_id, horizon)
+    if parent_goal_id.present?
+      if horizon == "week" ||  horizon == "quarter"
+        Goal.find(parent_goal_id)
+      elsif @horizon == "year"
+        LifeGoal.find(parent_goal_id)
+      end
+    else
+      ""
+    end
+  end
+
+  def parent_horizon_start(horizon)
+    DateTime.current.to_date.send("beginning_of_#{parent_horizon(horizon)}")
+  end
+  
 end

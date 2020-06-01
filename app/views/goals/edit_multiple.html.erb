@@ -19,7 +19,7 @@
         <p>Description</p>
       </th>
       <th>
-        <p>Related <%= @related_goal_name.capitalize+"ly" %> Goal</p>
+        <p>Parent Goal (<%= @parent_horizon.capitalize %>)</p>
       </th>
       <th>
         <p>Date</p>
@@ -50,7 +50,7 @@
             <div class="control">
               <div class="select">
                 
-                <%= f.select :related_goal_id, options_from_collection_for_select(@related_goal, 'id', 'title', goal.related_goal_id), include_blank: true %>
+                <%= f.select :parent_goal_id, options_from_collection_for_select(@parent_goals, 'id', 'title', goal.parent_goal_id), include_blank: true %>
               </div>
             </div>
           </td>

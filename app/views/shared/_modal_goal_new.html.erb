@@ -31,7 +31,7 @@
     <label class="heading">Parent Goal</label>
     <div class="control">
       <div class="select">
-        <%= f.select :related_goal_id, options_from_collection_for_select(@related_goal, 'id', 'title'), include_blank: true %>
+        <%= f.select :parent_goal_id, options_from_collection_for_select(@parent_goals, 'id', 'title'), include_blank: true %>
       </div>
     </div>
   </div>

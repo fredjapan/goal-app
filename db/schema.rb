@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_22_135735) do
+ActiveRecord::Schema.define(version: 2020_06_01_054627) do
 
   create_table "goals", force: :cascade do |t|
     t.string "title"
@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 2020_05_22_135735) do
     t.date "date"
     t.text "description"
     t.string "horizon"
-    t.integer "related_goal_id"
+    t.integer "parent_goal_id"
   end
 
   create_table "life_goals", force: :cascade do |t|
