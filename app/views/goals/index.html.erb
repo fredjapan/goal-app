@@ -1,6 +1,9 @@
 <div class="level">
   <div class="level-left">
     <div class="level-item">
+      <div id="menu-expand-button" class="is-hidden" onclick="menu_expand('side-menu')">
+        <%= embedded_svg("menu.svg", class:"menu-svg") %>
+      </div>
       <h2 class="title"><%= @horizon.capitalize+"ly" %> Goals</h2>
     </div>
     <div class="level-item">

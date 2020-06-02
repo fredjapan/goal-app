@@ -1,6 +1,11 @@
-<div class="container menu">
-  <div class="section">
-    <h1 class="title is-4 has-text-centered has-text-white">My Goal App</h1>
+<div class="menu">
+  <div id="menu-top">
+    <div id="menu-app-name">
+      <h1 class="title is-4 has-text-centered has-text-white">Goal App</h1>
+    </div>
+    <div id="menu-collapse-button" onclick="menu_collapse('side-menu')">
+        <%= embedded_svg("backburger.svg", class:"burger-svg") %>
+    </div>
   </div>
   <ul class="menu-list">
     <li><a href="/">HOME</a></li>

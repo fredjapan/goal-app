@@ -5,19 +5,75 @@ $custom-dark: #151b26;
 @import "~bulma/bulma";
 @import "~bulma-extensions/src/sass";
 
+#columns-container {
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 0;
+}
 
 .navigation {
   max-width: 240px;
-  background-color: $custom-dark;
   min-height: 100vh;
+  padding: 0;
+  background-color: $custom-dark;
+  transition: margin-left 250ms ease-out,transform 250ms ease-out;
 }
 .navigation .menu {
   position: sticky;
+  display: block;
   top: 0px;
+}
+
+.navigation #menu-top {
+  margin-top: 2.8rem;
+  margin-bottom: 2.4rem;
+}
+
+.navigation #menu-app-name {
+  display: inline-flex;
+  vertical-align: middle;
+  margin-left: 1.5rem;
+  margin-right: 1.5rem;
+}
+
+.navigation #menu-collapse-button {
+  display: inline-flex;
+  vertical-align: middle;
+  float: right;
 }
 
 .navigation a {
   color: $white;
+  padding-left: 1.5rem;
+}
+
+.navigation-collapsed {
+  margin-left: -240px;
+}
+
+#menu-expand-button, #menu-collapse-button {
+  display: flex;
+  cursor: pointer;
+  margin-right: 1.5rem;
+  transition: all 0.5s ease-in-out;
+}
+
+.burger-svg {
+  width: 30px;
+  height: 30px;
+  fill:#fff;
+  fill-rule: evenodd;
+}
+
+.menu-svg {
+  width: 27px;
+  height: 27px;
+  fill: #363636;
+  fill-rule: evenodd;
+}
+
+.section {
+  padding: 2.4rem 1.5rem;
 }
 
 .is-checkradio[type="radio"]+label:first-of-type {

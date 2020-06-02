@@ -10,12 +10,15 @@
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
   </head>
 
-  <body class="columns">
-    <nav class="column navigation">
-      <%= render "shared/navigation" %>
-    </nav class="navbar" role="navigation" aria-label="main navigation">
-    <div class="column section">
-      <%= yield %>
+  <body>
+
+    <div id="columns-container" class="columns">
+      <nav class="column navigation" id="side-menu">
+        <%= render "shared/navigation" %>
+      </nav class="navbar" role="navigation" aria-label="main navigation">
+      <div class="column section">
+        <%= yield %>
+      </div>
     </div>
     
   </body>

@@ -1,23 +1,15 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-  window.toggle_visibility = function(id) {
-    var e = document.getElementById(id);
-    if (e.style.display == 'block') {
-      e.style.display = 'none';
-    }
-    else {
-      e.style.display = 'block';
-    }
+  window.menu_collapse = function(el) {
+    var el = document.getElementById(el);
+    el.classList.add("navigation-collapsed");
+    document.getElementById("menu-expand-button").classList.remove("is-hidden")
   }
 
-  window.showID = function(id) {
-    var e = document.getElementById(id);
-    id.style.display = 'block';
-  }
-
-  window.hideID = function(id) {
-    var e = document.getElementById(id);
-    e.style.display = 'none';
+  window.menu_expand = function(el) {
+    var el = document.getElementById(el);
+    el.classList.remove("navigation-collapsed");
+    document.getElementById("menu-expand-button").classList.add("is-hidden")
   }
 
   // Modals
