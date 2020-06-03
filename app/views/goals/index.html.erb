@@ -1,118 +1,107 @@
-<div class="level">
-  <div class="level-left">
-    <div class="level-item">
-      <div id="menu-expand-button" class="is-hidden" onclick="menu_expand('side-menu')">
-        <%= embedded_svg("menu.svg", class:"menu-svg") %>
-      </div>
-      <h2 class="title"><%= @horizon.capitalize+"ly" %> Goals</h2>
-    </div>
-    <div class="level-item">
-      <%= link_to "New Goal", new_goal_path(horizon: @horizon), remote: true, class: "button is-primary modal-button" %>
-    </div>
+<div class="section">
+
+  <div class="tabs is-medium is-boxed">
+    <ul>
+      <li class="term-selector <% if params[:term] == "term_previous" %>is-active<% end %>">
+        <a href="/goals?horizon=<%= @horizon %>&term=term_previous">Previous <%= @horizon.capitalize.+"s" %></a>
+      </li>
+      <li class="term-selector <% if params[:term] == "term_this" %>is-active<% end %>">
+        <a href="/goals?horizon=<%= @horizon %>&term=term_this">This <%= @horizon.capitalize %></a>
+      </li>
+      <li class="term-selector <% if params[:term] == "term_next" %>is-active<% end %>">
+        <a href="/goals?horizon=<%= @horizon %>&term=term_next">Next <%= @horizon.capitalize %></a>
+      </li>
+    </ul>
   </div>
-</div>
 
-<div class="tabs is-medium is-boxed">
-  <ul>
-    <li class="term-selector <% if params[:term] == "term_previous" %>is-active<% end %>">
-      <a href="/goals?horizon=<%= @horizon %>&term=term_previous">Previous <%= @horizon.capitalize.+"s" %></a>
-    </li>
-    <li class="term-selector <% if params[:term] == "term_this" %>is-active<% end %>">
-      <a href="/goals?horizon=<%= @horizon %>&term=term_this">This <%= @horizon.capitalize %></a>
-    </li>
-    <li class="term-selector <% if params[:term] == "term_next" %>is-active<% end %>">
-      <a href="/goals?horizon=<%= @horizon %>&term=term_next">Next <%= @horizon.capitalize %></a>
-    </li>
-  </ul>
-</div>
-
-<% @goals.group_by{ |goal| goal.date.send("beginning_of_#{@horizon}")}.sort.reverse.each do |term_start, goals|%>
-  <div id="term-group" class="container">
-    <%= form_with model: @goal, url: edit_multiple_goals_path, local: true, method: :get do %>
-      <div class="<%= term_start %>">
-        <div class="level">
-          <div class="level-left">
-            <div class="level-item subtitle">
-              <%= @horizon.capitalize%> until ~
-              <%= term_start.send("end_of_#{@horizon}") %>
+  <% @goals.group_by{ |goal| goal.date.send("beginning_of_#{@horizon}")}.sort.reverse.each do |term_start, goals|%>
+    <div id="term-group" class="container">
+      <%= form_with model: @goal, url: edit_multiple_goals_path, local: true, method: :get do %>
+        <div class="<%= term_start %>">
+          <div class="level">
+            <div class="level-left">
+              <div class="level-item subtitle">
+                <%= @horizon.capitalize%> until ~
+                <%= term_start.send("end_of_#{@horizon}") %>
+              </div>
+            </div>
+            <div class="level-right">
+              <div class="level-item">
+                <%= submit_tag "Update goals", class: "button is-small is-outlined is-primary level-item" %>
+              </div>
             </div>
           </div>
-          <div class="level-right">
-            <div class="level-item">
-              <%= submit_tag "Update goals", class: "button is-small is-outlined is-primary level-item" %>
-            </div>
-          </div>
-        </div>
-        <table class="table is-fullwidth">
-          <tr>
-            <th>
-            </th>
-            <th>
-              <p>Title</p>
-            </th>
-            <th class="is-hidden">
-              <p>Description</p>
-            </th>
-            <th>
-              <p>Parent Goal</p>
-            </th>
-            <th>
-              <p>Achievment</p>
-            </th>
-            <th class="is-hidden">
-              <p>Date</p>
-            </th>
-            <th class="is-hidden"></th>
-          </tr>
-          <% @i = 1%>
-          <%= hidden_field_tag "horizon", @horizon %>
-          <% goals.each do |goal|%>
+          <table class="table is-fullwidth">
             <tr>
-              <td>
-                #<%= @i %>
-                <%= hidden_field_tag "goal_ids[]", goal.id %>
-              </td>
-              <td>
-                <%= link_to goal.title, goal_path(goal, horizon: @horizon, term: @term), class: "modal-button",remote: true %>
-              </td>
-              <td class="is-hidden">
-                <%= simple_format(goal.description) %>
-              </td>
-              <td>
-                <% if goal.parent_goal_id.present? == true %>
-                  <% if @horizon == "year" %>
-                    <%= link_to @lifegoals.find(goal.parent_goal_id).title, life_goal_path(goal.parent_goal_id), class: "modal-button",remote: true %>
-                  <% else%>
-                    <%= link_to @allgoals.find(goal.parent_goal_id).title, goal_path(goal.parent_goal_id,horizon: @horizon), class: "modal-button",remote: true %>
-                  <% end %>
-                <% end %>
-              </td>
-              <td>
-                <% if goal.achievement == "achieved" %>
-                  <span class="tag is-success is-light"><%= goal.achievement.capitalize %></span>
-                <% elsif goal.achievement == "partially achieved" %>
-                  <span class="tag is-warning is-light"><%= goal.achievement.capitalize %></span>
-                <% elsif goal.achievement == "failed" %>
-                  <span class="tag is-danger is-light"><%= goal.achievement.capitalize %></span>
-                <% else %>
-                <% end %>
-              </td>
-              <td class="is-hidden">
-                <%= goal.date %>
-              </td>
-              <td class="is-hidden">
-                <%= link_to  "Edit", edit_goal_path(goal), class: "button is-link" %>
-              </td>
+              <th>
+              </th>
+              <th>
+                <p>Title</p>
+              </th>
+              <th class="is-hidden">
+                <p>Description</p>
+              </th>
+              <th>
+                <p>Parent Goal</p>
+              </th>
+              <th>
+                <p>Achievment</p>
+              </th>
+              <th class="is-hidden">
+                <p>Date</p>
+              </th>
+              <th class="is-hidden"></th>
             </tr>
-            <% @i += 1 %>
-          <%end%>
-        </table>
-        <hr/>
-        <br/>
-      </div>
-    <% end %>
-  </div>
-<% end %>
+            <% @i = 1%>
+            <%= hidden_field_tag "horizon", @horizon %>
+            <% goals.each do |goal|%>
+              <tr>
+                <td>
+                  #<%= @i %>
+                  <%= hidden_field_tag "goal_ids[]", goal.id %>
+                </td>
+                <td>
+                  <%= link_to goal.title, goal_path(goal, horizon: @horizon, term: @term), class: "modal-button",remote: true %>
+                </td>
+                <td class="is-hidden">
+                  <%= simple_format(goal.description) %>
+                </td>
+                <td>
+                  <% if goal.parent_goal_id.present? == true %>
+                    <% if @horizon == "year" %>
+                      <%= link_to @lifegoals.find(goal.parent_goal_id).title, life_goal_path(goal.parent_goal_id), class: "modal-button",remote: true %>
+                    <% else%>
+                      <%= link_to @allgoals.find(goal.parent_goal_id).title, goal_path(goal.parent_goal_id,horizon: @horizon), class: "modal-button",remote: true %>
+                    <% end %>
+                  <% end %>
+                </td>
+                <td>
+                  <% if goal.achievement == "achieved" %>
+                    <span class="tag is-success is-light"><%= goal.achievement.capitalize %></span>
+                  <% elsif goal.achievement == "partially achieved" %>
+                    <span class="tag is-warning is-light"><%= goal.achievement.capitalize %></span>
+                  <% elsif goal.achievement == "failed" %>
+                    <span class="tag is-danger is-light"><%= goal.achievement.capitalize %></span>
+                  <% else %>
+                  <% end %>
+                </td>
+                <td class="is-hidden">
+                  <%= goal.date %>
+                </td>
+                <td class="is-hidden">
+                  <%= link_to  "Edit", edit_goal_path(goal), class: "button is-link" %>
+                </td>
+              </tr>
+              <% @i += 1 %>
+            <%end%>
+          </table>
+          <hr/>
+          <br/>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>
 
 <div id="modal-window" class="modal">
   <div class="modal-background"></div>

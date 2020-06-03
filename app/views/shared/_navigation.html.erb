@@ -1,17 +1,32 @@
 <div class="menu">
-  <div id="menu-top">
-    <div id="menu-app-name">
-      <h1 class="title is-4 has-text-centered has-text-white">Goal App</h1>
+  <div id="menu-container">
+    <div id="menu-top">
+      <div id="menu-app-name">
+        <h1 class="title is-4 has-text-centered has-text-white">Goal App</h1>
+      </div>
+      <div id="menu-collapse-button" onclick="menu_collapse('side-menu')">
+          <%= embedded_svg("backburger.svg", class:"burger-svg") %>
+      </div>
     </div>
-    <div id="menu-collapse-button" onclick="menu_collapse('side-menu')">
-        <%= embedded_svg("backburger.svg", class:"burger-svg") %>
+    <% if logged_in? %>
+    <ul class="menu-list">
+      <li><a href="/">HOME</a></li>
+      <li><a href="/goals?horizon=week&term=term_this">Weekly goals</a></li>
+      <li><a href="/goals?horizon=quarter&term=term_this">Quarterly goals</a></li>
+      <li><a href="/goals?horizon=year&term=term_this">Yearly goals</a></li>
+      <li><a href="/life_goals">Life goals</a></li>
+    </ul>
+    <div id="menu-login">
+      <div class="has-text-light has-text-centered">
+        Logged In as:
+        <span class="has-text-light has-text-weight-bold"><%= current_user.username %></span>
+      </div>
+      <%= link_to "Log Out", logout_path, class: "button is-small is-light is-outlined" %>
     </div>
+    <% else %>
+    <div id="menu-login">
+      <%= link_to "Log In", login_path, class: "button is-small is-light is-outlined" %>
+    </div>
+    <% end %>
   </div>
-  <ul class="menu-list">
-    <li><a href="/">HOME</a></li>
-    <li><a href="/goals?horizon=week&term=term_this">Weekly goals</a></li>
-    <li><a href="/goals?horizon=quarter&term=term_this">Quarterly goals</a></li>
-    <li><a href="/goals?horizon=year&term=term_this">Yearly goals</a></li>
-    <li><a href="/life_goals">Life goals</a></li>
-  </ul>
 </div>

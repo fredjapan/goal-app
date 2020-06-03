@@ -11,12 +11,14 @@
   </head>
 
   <body>
-
     <div id="columns-container" class="columns">
-      <nav class="column navigation" id="side-menu">
-        <%= render "shared/navigation" %>
-      </nav class="navbar" role="navigation" aria-label="main navigation">
-      <div class="column section">
+      <% if logged_in? %>
+        <nav class="column navigation" id="side-menu">
+          <%= render "shared/navigation" %>
+        </nav class="navbar" role="navigation" aria-label="main navigation">
+      <% end %>
+      <div class="column" id="main-window">
+        <%= render "shared/header" %>
         <%= yield %>
       </div>
     </div>

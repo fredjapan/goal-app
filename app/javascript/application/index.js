@@ -12,6 +12,14 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById("menu-expand-button").classList.add("is-hidden")
   }
 
+  //Button Loading state onclick if class is .clickable
+
+  $(function() {                       
+    $(".clickable").click(function() {
+      $(this).addClass("is-loading");
+    });
+  });
+
   // Modals
 
   var rootEl = document.documentElement;

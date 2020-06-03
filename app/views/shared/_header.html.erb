@@ -1,0 +1,39 @@
+<% if logged_in? %>
+  <div id="app-header" class="section">
+    <div class="level">
+      <div class="level-left">
+        <div id="menu-expand-button" class="is-hidden" onclick="menu_expand('side-menu')">
+          <%= embedded_svg("menu.svg", class:"menu-svg") %>
+        </div>        
+          <% url = request.path_info %>
+          <% if url == "/goals" %>
+            <div class="level-item">
+              <h2 class="title page-title"><%= @horizon.capitalize+"ly" %> Goals</h2>
+            </div>
+            <div class="level-item">
+              <%= link_to "New Goal", new_goal_path(horizon: @horizon), remote: true, class: "button is-primary modal-button" %>
+            </div>
+          <% elsif url == "/life_goals" %>
+            <div class="level-item">
+              <h2 class="title page-title">Life Goals</h2>
+            </div>
+            <div class="level-item">
+              <%= link_to "New Goal", new_life_goal_path, remote: true, class: "button is-primary modal-button" %>
+            </div>
+          <% elsif url == "/goals/edit_multiple" %>
+            <div class="level-item">
+              <h2 class="title">Update <%= @horizon.capitalize+"ly" %> Goals</h2>
+            </div>
+          <% elsif url == "/life_goals/edit_multiple" %>
+            <div class="level-item">
+              <h2 class="title">Update Life Goals</h2>
+            </div>
+          <% else %>
+            <div class="level-item">
+              <div class="title">My Goal App</div>
+            </div>
+          <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>

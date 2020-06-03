@@ -1,9 +1,23 @@
-<h1>Welcome</h1>
-
-<% if logged_in? %>
-  <h1>You are Logged In, <%= current_user.username %></h1>
-  <%= button_to "Logout", '/logout', method: :get%>
-<% else %>
-  <%= button_to "Login", login_path %>
-  <%= button_to "Sign Up", new_user_path, method: :get %>
-<%end%>
+<div id="welcome" class="columns is-vcentered">
+  <%= image_tag  "goal-background.png", id: "goal-background" %>
+  <div class="column">
+    <div class="card">
+      <div class="card-content">
+        <div class="title has-text-centered">Goal App</div>
+        <div class="subtitle has-text-centered">You are what you consistently do</div>
+        <% if logged_in? %>
+          <div class="has-text-centered">
+            <div>You are Logged In, <%= current_user.username %></div>
+            <br/>
+            <%= button_to "Log Out", '/logout', method: :get, class: "button"%>
+          </div>
+        <% else %>
+          <div class="buttons is-centered">
+            <%= link_to "Log In", login_path, class: "button is-primary" %>
+            <%= link_to "Sign Up", new_user_path, method: :get, class: "button" %>
+          </div>
+        <%end%>
+      </div>
+    </div>
+  </div>
+</div>

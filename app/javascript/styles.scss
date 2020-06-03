@@ -5,10 +5,39 @@ $custom-dark: #151b26;
 @import "~bulma/bulma";
 @import "~bulma-extensions/src/sass";
 
+.bullet ul {
+  display: block;
+  list-style-type: disc;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  padding-inline-start: 40px;
+}
+
+#welcome {
+  height: 100vh;
+  background: linear-gradient(10deg, rgba(2,0,36,1) 0%, rgba(187,147,2,1) 0%, rgba(255,241,0,1) 100%);
+}
+
+#goal-background {
+  position: fixed;
+  height: 90vh;
+  bottom: 0;
+  right: 15%;
+}
+
+#welcome .card {
+  max-width: 600px;
+  margin: auto;
+}
+
 #columns-container {
   margin-left: 0;
   margin-right: 0;
   margin-top: 0;
+}
+
+#app-header {
+  padding-bottom: 0;
 }
 
 .navigation {
@@ -22,11 +51,17 @@ $custom-dark: #151b26;
   position: sticky;
   display: block;
   top: 0px;
+  height: 100vh;
+}
+
+.navigation #menu-containter {
+  height: 100vh;
+  position: relative;
 }
 
 .navigation #menu-top {
-  margin-top: 2.8rem;
-  margin-bottom: 2.4rem;
+  padding-top: 2.8rem;
+  padding-bottom: 2.4rem;
 }
 
 .navigation #menu-app-name {
@@ -42,8 +77,7 @@ $custom-dark: #151b26;
   float: right;
 }
 
-.navigation a {
-  color: $white;
+.navigation .menu-list a {
   padding-left: 1.5rem;
 }
 
@@ -72,8 +106,25 @@ $custom-dark: #151b26;
   fill-rule: evenodd;
 }
 
+#menu-login {
+  border-top: 1px solid;
+  border-color: $dark;
+  display: block;
+  position: absolute;
+  bottom: 0;
+  padding-bottom: 20px;
+  padding-top: 20px;
+  margin-top: auto;
+  width: 240px;
+  text-align: center;
+}
+
+#menu-login a{
+  margin-top: 10px;
+}
+
 .section {
-  padding: 2.4rem 1.5rem;
+  padding: 1.7rem 1.5rem;
 }
 
 .is-checkradio[type="radio"]+label:first-of-type {
