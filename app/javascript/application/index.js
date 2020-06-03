@@ -20,6 +20,16 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
+  //Notification Close
+
+    (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
+      $notification = $delete.parentNode;
+  
+      $delete.addEventListener('click', () => {
+        $notification.parentNode.removeChild($notification);
+      });
+    });
+
   // Modals
 
   var rootEl = document.documentElement;

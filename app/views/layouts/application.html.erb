@@ -11,6 +11,14 @@
   </head>
 
   <body>
+    <% flash.each do |name, msg| -%>
+      <div class="notification-container">
+        <div class="<%= name %> notification is-info">
+          <button class="delete"></button>
+          <%= msg %>
+        </div>
+      </div>
+    <% end -%>
     <div id="columns-container" class="columns">
       <% if logged_in? %>
         <nav class="column navigation" id="side-menu">

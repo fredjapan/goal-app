@@ -13,6 +13,20 @@ $custom-dark: #151b26;
   padding-inline-start: 40px;
 }
 
+.notification-container {
+  position: fixed;
+  top: 40px;
+  width: 100%;
+  text-align: center;
+  z-index: 1000;
+}
+
+.notification {
+  margin: auto;
+  width: 600px;
+  text-align: left;
+}
+
 #welcome {
   height: 100vh;
   background: linear-gradient(10deg, rgba(2,0,36,1) 0%, rgba(187,147,2,1) 0%, rgba(255,241,0,1) 100%);

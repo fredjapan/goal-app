@@ -25,7 +25,7 @@ class SessionsController < ApplicationController
   def destroy  
     session.delete(:user_id)
     flash[:notice] = "You have successfully logged out."
-    redirect_to '/welcome', :notice => "Logged out"
+    redirect_to '/welcome'
   end
 
   def page_requires_login
