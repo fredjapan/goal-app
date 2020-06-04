@@ -17,9 +17,9 @@
       <li><a href="/life_goals">Life goals</a></li>
     </ul>
     <div id="menu-login">
-      <div class="has-text-light has-text-centered">
+      <div class="has-text-light has-text-centered is-size-7">
         Logged In as:
-        <span class="has-text-light has-text-weight-bold"><%= current_user.username %></span>
+        <span class="has-text-light has-text-weight-bold is-size-7"><%= current_user.email %></span>
       </div>
       <%= link_to "Log Out", logout_path, class: "button is-small is-light is-outlined" %>
     </div>

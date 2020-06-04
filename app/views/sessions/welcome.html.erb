@@ -7,7 +7,7 @@
         <div class="subtitle has-text-centered">You are what you consistently do</div>
         <% if logged_in? %>
           <div class="has-text-centered">
-            <div>You are Logged In, <%= current_user.username %></div>
+            <div>You are Logged In as: <%= current_user.email %></div>
             <br/>
             <%= button_to "Log Out", '/logout', method: :get, class: "button"%>
           </div>

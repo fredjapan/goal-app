@@ -1,7 +1,8 @@
 class User < ApplicationRecord
 
-  validates :username, presence: {message: "must have a title."}
-  validates :username, uniqueness: {message: "already exists."}
+  validates :email, presence: {message: "must be present."}
+  validates :email, uniqueness: {message: "already exists."}
+  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP } 
 
   has_secure_password
   
