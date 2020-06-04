@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema.define(version: 2020_06_04_084705) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "goals", force: :cascade do |t|
     t.string "title"
     t.string "achievement"
@@ -19,7 +22,7 @@ ActiveRecord::Schema.define(version: 2020_06_04_084705) do
     t.text "description"
     t.string "horizon"
     t.integer "parent_goal_id"
-    t.integer "user_id"
+    t.bigint "user_id"
     t.index ["user_id"], name: "index_goals_on_user_id"
   end
 
@@ -27,7 +30,7 @@ ActiveRecord::Schema.define(version: 2020_06_04_084705) do
     t.string "title"
     t.text "what"
     t.text "why"
-    t.integer "user_id"
+    t.bigint "user_id"
     t.index ["user_id"], name: "index_life_goals_on_user_id"
   end
 
