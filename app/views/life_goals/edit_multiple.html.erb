@@ -1,0 +1,66 @@
+<div class="section">
+
+  <%= form_with model: @life_goals, url: update_multiple_life_goals_path, local: true, method: :patch do %>
+    <table class="table is-fullwidth">
+      <tr>
+        <th>
+          <p>#</p>
+        </th>
+        <th>
+          <p>ROLE</p>
+        </th>
+        <th>
+          <p>WHAT</p>
+        </th>
+        <th>
+          <p>WHY</p>
+        </th>
+        <th></th>
+      </tr>
+      <% @i = 1%>
+      <% @life_goals.each do |life_goal| %>
+        <%= fields_for "life_goal[]", life_goal do |f| %>
+          <tr>
+            <td>
+              Goal #<%= @i %>
+            </td>
+            <td class="field">
+              <div class="control">
+                <%= f.text_field :title, class: "input" %>
+              </div>
+            </td>
+            <td class="field">
+              <div class="control">
+                <%= f.text_area :what, class: "textarea" %>
+              </div>
+            </td>
+            <td class="field">
+              <div class="control">
+                <div class="select">
+                  <%= f.text_area :why, class: "textarea" %>
+                </div>
+              </div>
+            </td>
+            <td>
+              <%= link_to life_goal_path(life_goal), method: :delete, data: { confirm: "Delete Life Goal: #{life_goal.title}?" }, class: "button is-danger is-small is-outlined" do %>
+                <span>Delete</span>
+                <span class="icon is-small">
+                  <i class="fas fa-times"></i>
+                </span>
+              <% end %>
+            </td>
+          </tr>
+          <% @i += 1 %>
+        <% end %>
+      <% end %>
+    </table>
+    <div class="field is-grouped">
+      <div class="control">
+        <%= submit_tag "Update", class: "button is-primary" %>
+      </div>
+      <div class="control">
+        <%= link_to "Cancel", life_goals_path, class: "button" %>
+      </div>
+    </div>
+  <% end %>
+</div>

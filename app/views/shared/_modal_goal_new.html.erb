@@ -1,0 +1,63 @@
+<div class="buttons has-addons">
+  <%= link_to "Weekly", new_goal_path(horizon: "week"), remote: true, class: "button modal-button #{'is-select is-info' if @horizon == 'week'}" %>
+  <%= link_to "Quarterly", new_goal_path(horizon: "quarter"), remote: true, class: "button modal-button #{'is-select is-info' if @horizon == 'quarter'}" %>
+  <%= link_to "Yearly", new_goal_path(horizon: "year"), remote: true, class: "button modal-button #{'is-select is-info' if @horizon == 'year'}" %>
+  <%= link_to "Life", new_life_goal_path, remote: true, class: "button modal-button #{'is-select is-info' if request.path_info.include?('life_goals')}" %>
+</div>
+
+<%= form_with model: @goal, url: goals_path(horizon: @horizon), id: "new-goal-form", local: true do |f| %>
+  <p><%= @goal.errors[:date].first %></p>
+  <div class="field">
+    <label class="heading">Title</label>
+    <div class="control">
+      <%= f.text_field :title, class: "input"%>
+    </div>
+    <p><%= @goal.errors[:title].first %></p>
+  </div>
+  <div class="field">
+    <label class="heading">Description</label>
+    <div class="control">
+      <%= f.text_area :description, class: "textarea"%>
+    </div>
+  </div>
+
+  <div class="field">
+    <div class="control">
+        <%= f.hidden_field :horizon, :value => params[:horizon] %>
+    </div>
+  </div>
+
+  <div class="field">
+    <label class="heading">Parent Goal</label>
+    <div class="control">
+      <div class="select">
+        <%= f.select :parent_goal_id, options_from_collection_for_select(@parent_goals, 'id', 'title'), include_blank: true %>
+      </div>
+    </div>
+  </div>
+
+  <div class="field">
+    <label class="heading">Due Date</label>
+    <div class="control">
+      <%= f.radio_button :date, DateTime.current.to_date.send("end_of_#{@horizon}").strftime('%Y-%m-%d'), :checked => true, id:"radio-this", class: "is-checkradio" %>
+      <label for="radio-this">
+        This <%= @horizon.capitalize %>
+      </label>
+      <%= f.radio_button :date, next_term("#{@horizon}").from_now.to_date.send("end_of_#{@horizon}").strftime('%Y-%m-%d'), id:"radio-next", class: "is-checkradio" %>
+      <label for="radio-next">
+        Next <%= @horizon.capitalize %>
+      </label>
+    </div>
+  </div>
+
+  <br/>
+  
+  <div class="field is-grouped">
+    <div class="control">
+      <%= f.submit "Save", class: "button is-primary is-hidden", id: "new-save-button" %>
+    </div>
+    <div class="control">
+      <%= link_to "Cancel", goals_path(horizon: @horizon), class: "button is-hidden", id: "new-cancel-button" %>
+    </div>
+  </div>
+<% end %>

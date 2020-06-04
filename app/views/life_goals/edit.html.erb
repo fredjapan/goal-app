@@ -1,0 +1,13 @@
+<%= form_with model: @life_goal, url: life_goal_path(@life_goal), local: true do |f| %>
+  <p><%= f.text_field :title %></p>
+  <p><%= f.text_area :what %></p>
+  <p><%= f.text_area :why %></p>
+  <p><%= f.submit "Update" %></p>
+<% end %>
+<%= link_to life_goal_path(@life_goal), method: :delete, data: { confirm: "Delete Goal: #{@life_goal.title}?" }, remote: true, class: "button is-danger is-small is-outlined" do %>
+  <span>Delete</span>
+  <span class="icon">
+    <i class="fas fa-times"></i>
+  </span>
+<% end %>
+<%= link_to "Cancel", life_goals_path, class: "button" %>

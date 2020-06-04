@@ -1,0 +1,66 @@
+<% @term = params[:term] %>
+<%= form_with model: @goal, url: goal_path(@goal, horizon: @horizon), local: true do |f| %>
+  
+  <div class="field"> 
+    <p class="heading">Title</p>
+    <div class="control">
+      <%= f.text_field :title, class: "input" %>
+    </div>
+    <p><%= @goal.errors[:title].first %></p>
+  </div>
+
+  <div class="field">
+    <p class="heading">Description</p>
+    <div class="control">
+      <%= f.text_area :description, class: "textarea" %>
+    </div>
+  </div>
+
+  <div class="field">
+    <p class="heading">Parent Goal</p>
+    <div class="control"> 
+      <div class="select">
+        <%= f.select :parent_goal_id, options_from_collection_for_select(@parent_goals, 'id', 'title', @goal.parent_goal_id), include_blank: true %>
+      </div>
+    </div>
+  </div>
+
+  <div class="field">
+    <% if @goal.this_term?(@horizon) || @goal.next_term?(@horizon) %>
+    <p class="heading">Due Date</p>
+      <div class="control">
+        <%= f.radio_button :date, DateTime.current.to_date.send("beginning_of_#{@horizon}").strftime('%Y-%m-%d'),
+        :checked => !!(@goal.this_term?(@horizon)), id: "radio-thisterm-#{@goal.id}", class: "is-checkradio" %>
+        <label for="radio-thisterm-<%= @goal.id %>">
+          This <%= @horizon %>
+        </label>
+        <%= f.radio_button :date, next_term(@horizon).from_now.to_date.send("end_of_#{@horizon}").strftime('%Y-%m-%d'),
+        :checked => !!(@goal.next_term?(@horizon)), id: "radio-nextterm-#{@goal.id}", class: "is-checkradio" %>
+        <label for="radio-nextterm-<%= @goal.id %>">
+          Next <%= @horizon %>
+        </label>
+      </div>
+    <%end%>
+    <p><%= @goal.errors[:date].first %></p>
+  </div>
+
+  <div class="field">
+    <p class="heading">Achievement</p>
+    <div class="control">
+      <div class="select">
+        <%= f.select :achievement, options_for_select({"Achieved" => "achieved", "Partially achieved" => "partially achieved", "Failed" => "failed"}, @goal.achievement), include_blank: true %>
+      </div>
+    </div>
+  </div>
+
+  <!-- this submit button is triggered from the button in the _modal_goal_edit_save partial -->
+  <p class="is-hidden"><%= f.submit "Update", id: "edit-form-update" %></p>
+
+<% end %>
+
+<%= link_to goal_path(@goal, horizon: @horizon, term: params[:term]), method: :delete, data: { confirm: "Delete Goal: #{@goal.title}?" }, class: "button is-danger is-small is-hidden", id: "goal-delete-button" do %>
+  <span>Delete</span>
+  <span class="icon is-small">
+    <i class="fas fa-times"></i>
+  </span>
+<% end %>

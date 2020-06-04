@@ -1,2 +1,150 @@
 // the ~ means the location is the node_modules directory
-@import '~bulma'
+$menu-item-color: #fff;
+$custom-dark: #151b26;
+
+@import "~bulma/bulma";
+@import "~bulma-extensions/src/sass";
+
+.bullet ul {
+  display: block;
+  list-style-type: disc;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  padding-inline-start: 40px;
+}
+
+.notification-container {
+  position: fixed;
+  top: 40px;
+  width: 100%;
+  text-align: center;
+  z-index: 1000;
+}
+
+.notification {
+  margin: auto;
+  width: 600px;
+  text-align: left;
+}
+
+#welcome {
+  height: 100vh;
+  background: linear-gradient(10deg, rgba(2,0,36,1) 0%, rgba(187,147,2,1) 0%, rgba(255,241,0,1) 100%);
+}
+
+#goal-background {
+  position: fixed;
+  height: 90vh;
+  bottom: 0;
+  right: 15%;
+}
+
+#welcome .card {
+  max-width: 600px;
+  margin: auto;
+}
+
+#columns-container {
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 0;
+}
+
+#app-header {
+  padding-bottom: 0;
+}
+
+.navigation {
+  max-width: 240px;
+  min-height: 100vh;
+  padding: 0;
+  background-color: $custom-dark;
+  transition: margin-left 250ms ease-out,transform 250ms ease-out;
+}
+.navigation .menu {
+  position: sticky;
+  display: block;
+  top: 0px;
+  height: 100vh;
+}
+
+.navigation #menu-containter {
+  height: 100vh;
+  position: relative;
+}
+
+.navigation #menu-top {
+  padding-top: 2.8rem;
+  padding-bottom: 2.4rem;
+}
+
+.navigation #menu-app-name {
+  display: inline-flex;
+  vertical-align: middle;
+  margin-left: 1.5rem;
+  margin-right: 1.5rem;
+}
+
+.navigation #menu-collapse-button {
+  display: inline-flex;
+  vertical-align: middle;
+  float: right;
+}
+
+.navigation .menu-list a {
+  padding-left: 1.5rem;
+}
+
+.navigation-collapsed {
+  margin-left: -240px;
+}
+
+#menu-expand-button, #menu-collapse-button {
+  display: flex;
+  cursor: pointer;
+  margin-right: 1.5rem;
+  transition: all 0.5s ease-in-out;
+}
+
+.burger-svg {
+  width: 30px;
+  height: 30px;
+  fill:#fff;
+  fill-rule: evenodd;
+}
+
+.menu-svg {
+  width: 27px;
+  height: 27px;
+  fill: #363636;
+  fill-rule: evenodd;
+}
+
+#menu-login {
+  border-top: 1px solid;
+  border-color: $dark;
+  display: block;
+  position: absolute;
+  bottom: 0;
+  padding-bottom: 20px;
+  padding-top: 20px;
+  margin-top: auto;
+  width: 240px;
+  text-align: center;
+}
+
+#menu-login a{
+  margin-top: 10px;
+}
+
+.section {
+  padding: 1.7rem 1.5rem;
+}
+
+.is-checkradio[type="radio"]+label:first-of-type {
+  margin-left: .5rem;
+}
+
+#modal-footer, #modal-header {
+  width: 100%;
+}

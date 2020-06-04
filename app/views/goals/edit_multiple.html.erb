@@ -1,62 +1,96 @@
-<h1>Edit Weekly Goals</h1>
+<div class="section">
 
-<%= form_tag update_multiple_goals_path, method: :patch do %>
-  <table>
-    <tr>
-      <td>
-        <p>#</p>
-      </td>
-      <td>
-        <p>Title</p>
-      </td>
-      <td>
-        <p>Description</p>
-      </td>
-      <td>
-        <p>Achievment</p>
-      </td>
-      <td>
-        <p>Date</p>
-      </td>
-      <td></td>
-    </tr>
-    <% @i = 1%>
-    <% @goal.each do |goal| %>
-      <%= fields_for "goal[]", goal do |f| %>
-        <tr>
-          <td>
-            Goal #<%= @i %>
-            <%= hidden_field_tag "goal_ids[]", goal.id %>
-          </td>
-          <td>
-            <%= f.text_field :title %>
-          </td>
-          <td>
-            <%= f.text_area :description %>
-          </td>
-          <td>
-            <%= f.select :achievement, options_for_select(["Achieved", "Partially achieved", "Failed"], goal.achievement), include_blank: true %>
-          </td>
-          <td>
-            <% if goal.this_week? || goal.next_week? %>
-              <p>
-                <label><%= f.radio_button :date, DateTime.current.to_date.beginning_of_week.strftime('%Y-%m-%d'),
-                :checked => !!(goal.this_week?) %>This Week</label>
-              </p>
-              <p>
-                <label><%= f.radio_button :date, 1.week.from_now.to_date.end_of_week.strftime('%Y-%m-%d'),
-                :checked => !!(goal.next_week?) %>Next Week</label>
-              </p>
-            <%end%>
-          </td>
-          <td>
-            <%= link_to "Delete", goal_path(goal), method: :delete, remote: true %>
-          </td>
-        </tr>
-        <% @i += 1 %>
+  <%= form_with model: @goal, url: update_multiple_goals_path(horizon: @horizon), local: true, method: :patch do %>
+    <table class="table is-fullwidth">
+      <tr>
+        <th>
+          <p>#</p>
+        </th>
+        <th>
+          <p>Title</p>
+        </th>
+        <th>
+          <p>Description</p>
+        </th>
+        <th>
+          <p>Parent Goal (<%= @parent_horizon.capitalize %>)</p>
+        </th>
+        <th>
+          <p>Date</p>
+        </th>
+        <th>
+          <p>Achievement</p>
+        <th>
+        </th>
+      </tr>
+      <% @i = 1%>
+      <% @goal.each do |goal| %>
+        <%= fields_for "goal[]", goal do |f| %>
+          <tr>
+            <td>
+              Goal #<%= @i %>
+            </td>
+            <td class="field">
+              <div class="control">
+                <%= f.text_field :title, class: "input" %>
+              </div>
+            </td>
+            <td class="field">
+              <div class="control">
+                <%= f.text_area :description, class: "textarea" %>
+              </div>
+            </td>
+            <td class="field">
+              <div class="control">
+                <div class="select">
+                  
+                  <%= f.select :parent_goal_id, options_from_collection_for_select(@parent_goals, 'id', 'title', goal.parent_goal_id), include_blank: true %>
+                </div>
+              </div>
+            </td>
+            <td class="field">
+              <% if goal.this_term?(@horizon) || goal.next_term?(@horizon) %>
+                <div class="control">
+                  <%= f.radio_button :date, DateTime.current.to_date.send("beginning_of_#{@horizon}").strftime('%Y-%m-%d'),
+                  :checked => !!(goal.this_term?(@horizon)), id: "radio-thisweek-#{goal.id}", class: "is-checkradio" %>
+                  <label for="radio-thisweek-<%= goal.id %>">
+                    This <%= @horizon %>
+                  </label>
+                  <%= f.radio_button :date, next_term(@horizon).from_now.to_date.send("end_of_#{@horizon}").strftime('%Y-%m-%d'),
+                  :checked => !!(goal.next_term?(@horizon)), id: "radio-nextweek-#{goal.id}", class: "is-checkradio" %>
+                  <label for="radio-nextweek-<%= goal.id %>">
+                    Next <%= @horizon %>
+                  </label>
+                </div>
+              <%end%>
+            </td>
+            <td class="field">
+              <div class="control">
+                <div class="select">
+                  <%= f.select :achievement, options_for_select({"Achieved" => "achieved", "Partially achieved" => "partially achieved", "Failed" => "failed"}, goal.achievement), include_blank: true %>
+                </div>
+              </div>
+            </td>
+            <td>
+              <%= link_to goal_path(goal, horizon: @horizon, term: params[:term]), method: :delete, data: { confirm: "Delete Goal: #{goal.title}?" }, class: "button is-danger is-small is-outlined" do %>
+                <span>Delete</span>
+                <span class="icon is-small">
+                  <i class="fas fa-times"></i>
+                </span>
+              <% end %>
+            </td>
+          </tr>
+          <% @i += 1 %>
+        <% end %>
       <% end %>
-    <% end %>
-  </table>
-  <%= submit_tag "Update" %>
-  <a href="./">Back</a>
-<% end %>
+    </table>
+    <div class="field is-grouped">
+      <div class="control">
+        <%= submit_tag "Update", class: "button is-primary" %>
+      </div>
+      <div class="control">
+        <%= link_to "Cancel", goals_path(horizon: @horizon), class: "button" %>
+      </div>
+    </div>
+  <% end %>
+</div>

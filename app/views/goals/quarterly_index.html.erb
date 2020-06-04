@@ -1,0 +1,72 @@
+<%= render partial: "shared/goalheader", locals: {horizon: @horizon} %>
+
+<% @goals.group_by{ |u| u.date.beginning_of_quarter }.sort.reverse.each do |quarter_start, goals|%>
+  <div id="week" class="container">
+    <%= form_tag edit_multiple_goals_path, method: :get do %>
+    <hr/>
+    <div class="level">
+      <div class="level-left">
+        <h2 class="subtitle level-item">
+          <% if DateTime.current.to_date.beginning_of_quarter == quarter_start %>
+            This quarter
+          <% elsif DateTime.current.to_date.beginning_of_quarter + 3.month == quarter_start %>
+            Next quarter
+          <% else %>
+            Previous quarter ~ <%= quarter_start.end_of_quarter %>
+          <% end %>
+        </h2>
+      </div>
+      <div class="level-right">
+        <%= submit_tag "Update goals", class: "button is-small is-outlined is-primary level-item" %>
+      </div>
+    </div>
+      <table class="table is-fullwidth">
+        <tr>
+          <th>
+            <p>#</p>
+          </th>
+          <th>
+            <p>Title</p>
+          </th>
+          <th>
+            <p>Description</p>
+          </th>
+          <th>
+            <p>Achievment</p>
+          </th>
+          <th class="is-hidden"></th>
+        </tr>
+        <% @i = 1%>
+        <% goals.each do |goal|%>
+          <tr>
+            <td>
+              Goal #<%= @i %>
+              <%= hidden_field_tag "goal_ids[]", goal.id %>
+            </td>
+            <td>
+              <%= link_to goal.title, goal_path(goal) %>
+            </td>
+            <td>
+              <%= goal.description %>
+            </td>
+            <td>
+              <% if goal.achievement == "Achieved" %>
+                <span class="tag is-success is-light"><%= goal.achievement %></span>
+              <% elsif goal.achievement == "Partially achieved" %>
+                <span class="tag is-warning is-light"><%= goal.achievement %></span>
+              <% elsif goal.achievement == "Failed" %>
+                <span class="tag is-danger is-light"><%= goal.achievement %></span>
+              <% else %>
+              <% end %>
+            </td>
+            <td class="is-hidden">
+              <%= link_to  "Edit", edit_goal_path(goal), class: "button is-link" %>
+            </td>
+          </tr>
+          <% @i += 1 %>
+        <%end%>
+      </table>
+      <br/>
+    <% end %>
+  </div>
+<% end %>

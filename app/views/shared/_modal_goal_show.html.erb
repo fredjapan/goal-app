@@ -1,0 +1,39 @@
+<div class="columns">
+  <div class="column is-three-quarters">
+      <div class="title is-3 is-spaced"><%= @goal.title %></div>
+  </div>
+  <div class="column has-text-right">
+    <% if @goal.achievement == "achieved" %>
+      <div class="tag is-success is-light"><%= @goal.achievement.capitalize %></div>
+    <% elsif @goal.achievement == "partially achieved" %>
+      <div class="tag is-warning is-light"><%= @goal.achievement.capitalize %></div>
+    <% elsif @goal.achievement == "failed" %>
+      <div class="tag is-danger is-light"><%= @goal.achievement.capitalize %></div>
+    <% else %>
+      <div class="tag is-light">Not achieved yet</div>
+    <% end %>
+  </div>
+</div>
+    
+<div class="columns">
+  <div class="column">
+    <div class="heading">Due Date</div>
+    <div><%= @goal.date %></div>
+  </div>
+  <div class="column">
+    <div class="heading">Parent Goal</div>
+    <div>
+      <% if @parent_goal.present? %>
+        <%= @parent_goal.title %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div>
+  <div class="heading">Description</div>
+  <div><%= simple_format(@goal.description) %></div>
+</div>
+
+
+

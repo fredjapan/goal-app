@@ -1,18 +1,70 @@
-<%= form_with model: @goal, url: goals_path, local: true do |f| %>
-  <!--
-  <p>Date: <%= f.date_field :date, :value => Time.now.strftime('%Y-%m-%d') %></p>
-  -->
-  <p>Date:</p>
-  <p>
-    <label><%= f.radio_button :date, DateTime.current.to_date.end_of_week.strftime('%Y-%m-%d'), :checked => true %>This Week</label>
-  </p>
-  <p>
-    <label><%= f.radio_button :date, 1.week.from_now.to_date.end_of_week.strftime('%Y-%m-%d') %>Next Week</label>
-  </p>
+<div class="level">
+  <div class="level-left">
+    <div class="level-item">
+      <h2 class="title">Create a New Goal</h2>
+    </div>
+  </div>
+</div>
+
+<div class="buttons has-addons">
+  <a href="/goals/new?horizon=week" class="button <%= 'is-select is-info' if @horizon == 'week' %>">Weekly</a>
+  <a href="/goals/new?horizon=quarter" class="button <%= 'is-select is-info' if @horizon == 'quarter' %>">Quarterly</a>
+  <a href="/goals/new?horizon=year" class="button <%= 'is-select is-info' if @horizon == 'year' %>">Yearly</a>
+</div>
+
+<%= form_with model: @goal, url: goals_path(horizon: @horizon), id: "new-goal-form", local: true do |f| %>
   <p><%= @goal.errors[:date].first %></p>
-  <p>Title: <%= f.text_field :title %></p>
-  <p><%= @goal.errors[:title].first %></p>
-  <p>Description: <%= f.text_area :description %></p>
-  <p>Achievement: <%= f.text_field :achievement %></p>
-  <p><%= f.submit "New" %></p>
+  <div class="field">
+    <label class="label">Title</label>
+    <div class="control">
+      <%= f.text_field :title, class: "input"%>
+    </div>
+    <p><%= @goal.errors[:title].first %></p>
+  </div>
+  <div class="field">
+    <label class="label">Description</label>
+    <div class="control">
+      <%= f.text_area :description, class: "textarea"%>
+    </div>
+  </div>
+
+  <div class="field">
+    <div class="control">
+        <%= f.hidden_field :horizon, :value => params[:horizon] %>
+    </div>
+  </div>
+
+  <div class="field">
+    <label class="label">Due Date</label>
+    <div class="control">
+      <%= f.radio_button :date, DateTime.current.to_date.send("end_of_#{@horizon}").strftime('%Y-%m-%d'), :checked => true, id:"radio-this", class: "is-checkradio" %>
+      <label for="radio-this">
+        This <%= @horizon.capitalize %>
+      </label>
+      <%= f.radio_button :date, next_term("#{@horizon}").from_now.to_date.send("end_of_#{@horizon}").strftime('%Y-%m-%d'), id:"radio-next", class: "is-checkradio" %>
+      <label for="radio-next">
+        Next <%= @horizon.capitalize %>
+      </label>
+    </div>
+  </div>
+
+  <div class="field">
+    <label class="label">Related goal</label>
+    <div class="control">
+      <div class="select">
+        <%= f.select :parent_goal_id, options_from_collection_for_select(@parent_goals, 'id', 'title'), include_blank: true %>
+      </div>
+    </div>
+  </div>
+
+  <br/>
+  
+  <div class="field is-grouped">
+    <div class="control">
+      <%= f.submit "Save", class: "button is-primary" %>
+    </div>
+    <div class="control">
+      <%= link_to "Cancel", goals_path(horizon: @horizon), class: "button" %>
+    </div>
+  </div>
 <% end %>
