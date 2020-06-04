@@ -5,6 +5,8 @@ class Goal < ActiveRecord::Base
   validates :date, presence: {message: "Goals must have a deadline."}
   validates :horizon, presence: {message: "Goals must have a horizon."}
 
+  belongs_to :user
+
   scope :date_later_than, ->(start_date) { where('date >= ?', start_date) }
 
   def this_term?(horizon)

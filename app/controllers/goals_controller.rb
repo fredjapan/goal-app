@@ -5,16 +5,16 @@ class GoalsController < ApplicationController
     @term = params[:term]
     def goals_scope(horizon, term)
       if term == "term_previous"
-        Goal.where(horizon: horizon).where('date < ?', DateTime.current.to_date.send("beginning_of_#{horizon}"))
+        Goal.where(user: current_user).where(horizon: horizon).where('date < ?', DateTime.current.to_date.send("beginning_of_#{horizon}"))
       elsif term == "term_next"
-        Goal.where(horizon: horizon).where('date > ?', DateTime.current.to_date.send("end_of_#{horizon}"))
+        Goal.where(user: current_user).where(horizon: horizon).where('date > ?', DateTime.current.to_date.send("end_of_#{horizon}"))
       else
-        Goal.where(horizon: horizon).where('date >= ?', DateTime.current.to_date.send("beginning_of_#{horizon}")).where('date <= ?', DateTime.current.to_date.send("end_of_#{horizon}"))
+        Goal.where(user: current_user).where(horizon: horizon).where('date >= ?', DateTime.current.to_date.send("beginning_of_#{horizon}")).where('date <= ?', DateTime.current.to_date.send("end_of_#{horizon}"))
       end
     end
     @goals = goals_scope(@horizon, @term)
-    @allgoals = Goal.all
-    @lifegoals = LifeGoal.all
+    @allgoals = Goal.all.where(user: current_user)
+    @lifegoals = LifeGoal.all.where(user: current_user)
   end
   
   def show
@@ -32,8 +32,8 @@ class GoalsController < ApplicationController
     @horizon = params[:horizon]
     @goal = Goal.new
     @parent_goals = []
-    if parent_goals(@horizon, "term_this").present?
-      @parent_goals = parent_goals(@horizon, "term_this")
+    if parent_goals(@horizon, "term_this").where(user: current_user).present?
+      @parent_goals = parent_goals(@horizon, "term_this").where(user: current_user)
     end
     respond_to do |format|
       format.js
@@ -46,8 +46,8 @@ class GoalsController < ApplicationController
     id = params[:id]
     @goal = Goal.find(id)
     @parent_goals = []
-    if parent_goals(@horizon, @term).present?
-      @parent_goals = parent_goals(@horizon, @term)
+    if parent_goals(@horizon, @term).where(user: current_user).present?
+      @parent_goals = parent_goals(@horizon, @term).where(user: current_user)
     end
     respond_to do |format|
       format.js
@@ -57,7 +57,7 @@ class GoalsController < ApplicationController
   def create
     @horizon = params[:horizon]
     @term = params[:term]
-    @goal = Goal.new(goal_params)
+    @goal = Goal.new(goal_params.merge(user: current_user))
     if @goal.save
       redirect_to action: "index", horizon: @goal[:horizon], term: 
         if @goal.date >= DateTime.current.to_date.send("beginning_of_#{@horizon}") && @goal.date <= DateTime.current.to_date.send("end_of_#{@horizon}")
@@ -115,7 +115,7 @@ class GoalsController < ApplicationController
     @horizon = params[:horizon]
     @goal = Goal.find(params[:goal_ids])
     @parent_horizon = parent_horizon(@horizon)
-    @parent_goals = parent_goals(@horizon, "term_previous")
+    @parent_goals = parent_goals(@horizon, "term_previous").where(user: current_user)
   end
 
   def update_multiple

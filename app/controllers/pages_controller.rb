@@ -1,14 +1,14 @@
 class PagesController < ApplicationController
   
   def home
-    @goal_week_count = Goal.where(horizon: "week").count
-    @goal_quarter_count = Goal.where(horizon: "quarter").count
-    @goal_year_count = Goal.where(horizon: "year").count
-    @goal_life_count = Goal.where(horizon: "life").count
+    @goal_week_count = Goal.where(horizon: "week").where(user: current_user).count
+    @goal_quarter_count = Goal.where(horizon: "quarter").where(user: current_user).count
+    @goal_year_count = Goal.where(horizon: "year").where(user: current_user).count
+    @goal_life_count = Goal.where(horizon: "life").where(user: current_user).count
 
     def achievment_percentage(horizon, achievement)
-      total_goal_withachievment = Goal.where(horizon: horizon).where.not(achievement: [nil, ""]).count
-      goal_achievement_count = Goal.where(horizon: horizon, achievement: achievement).count
+      total_goal_withachievment = Goal.where(horizon: horizon).where.not(achievement: [nil, ""]).where(user: current_user).count
+      goal_achievement_count = Goal.where(horizon: horizon, achievement: achievement).where(user: current_user).count
       goal_achievement_count.to_f / total_goal_withachievment.to_f
     end
     

@@ -1,7 +1,7 @@
 class LifeGoalsController < ApplicationController
 
   def index
-    @life_goals = LifeGoal.all
+    @life_goals = LifeGoal.all.where(user: current_user)
   end
 
   def show
@@ -20,7 +20,7 @@ class LifeGoalsController < ApplicationController
   end
 
   def create
-    @life_goal = LifeGoal.new(life_goal_params)
+    @life_goal = LifeGoal.new(life_goal_params.merge(user: current_user))
     if @life_goal.save
       redirect_to action: "index"
     else
@@ -57,7 +57,7 @@ class LifeGoalsController < ApplicationController
   end
 
   def edit_multiple
-    @life_goals = LifeGoal.all
+    @life_goals = LifeGoal.all.where(user: current_user)
   end
 
   def update_multiple
