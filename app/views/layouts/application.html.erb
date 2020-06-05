@@ -13,10 +13,12 @@
   <body>
     <% flash.each do |name, msg| -%>
       <div class="notification-container">
-        <div class="<%= name %> notification is-info">
-          <button class="delete"></button>
-          <%= msg %>
-        </div>
+        <% if flash[:notice] %>
+          <div class="<%= name %> notification is-info">
+            <button class="delete"></button>
+            <%= msg %>
+          </div>
+        <% end %>
       </div>
     <% end -%>
     <div id="columns-container" class="columns">

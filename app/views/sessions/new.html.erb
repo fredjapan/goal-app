@@ -4,6 +4,7 @@
     <div class="card">
       <div class="card-content">
         <div class="title has-text-centered">Log in</div>
+          <div class="has-text-danger"><%= flash[:error] %></div><br/>
 
           <%= form_tag login_path do %>
             <div class="field">
