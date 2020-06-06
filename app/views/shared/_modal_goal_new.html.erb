@@ -1,3 +1,5 @@
+<div><%= @goal.errors[:title].first %></div>
+
 <div class="buttons has-addons">
   <%= link_to "Weekly", new_goal_path(horizon: "week"), remote: true, class: "button modal-button #{'is-select is-info' if @horizon == 'week'}" %>
   <%= link_to "Quarterly", new_goal_path(horizon: "quarter"), remote: true, class: "button modal-button #{'is-select is-info' if @horizon == 'quarter'}" %>
