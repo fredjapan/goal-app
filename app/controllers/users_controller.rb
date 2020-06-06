@@ -10,7 +10,7 @@ class UsersController < ApplicationController
     @user = User.create(params.require(:user).permit(:email, :password))
     if @user.save
       session[:user_id] = @user.id
-      redirect_to '/welcome'
+      redirect_to root_path
     else
       render 'new'
     end
