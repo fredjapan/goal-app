@@ -14,6 +14,21 @@
     </ul>
   </div>
 
+  <% if @goals.count == 0 %>
+    <div class="no-results">
+      <%= image_tag "no_results.png", id: "no-results-image" %>
+      <div class="has-text-grey">You don't have any goal for 
+      <% if @term == "term_previous" %>
+        these past few <%=@horizon%>s!
+      <% elsif @term == "term_this" %>
+        this <%=@horizon%>!
+      <% elsif @term == "term_next" %>
+        next <%=@horizon%>!
+      <% end %>
+      </div>
+    </div>
+  <% end %>
+
   <% @goals.group_by{ |goal| goal.date.send("beginning_of_#{@horizon}")}.sort.reverse.each do |term_start, goals|%>
     <div id="term-group" class="container">
       <%= form_with model: @goal, url: edit_multiple_goals_path, local: true, method: :get do %>
