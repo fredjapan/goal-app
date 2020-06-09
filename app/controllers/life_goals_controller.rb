@@ -66,7 +66,12 @@ class LifeGoalsController < ApplicationController
 
   def update_multiple
     @life_goals = LifeGoal.update(params[:life_goal].keys, params[:life_goal].values)
-    redirect_to action: "index"
+    @life_goals.reject { |p| p.errors.empty? }
+    if @life_goals.empty?
+      life_goals_path(horizon: @horizon, term: "term_this")
+    else
+      render edit_multiple_life_goals_path
+    end
   end
 
   private
