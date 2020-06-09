@@ -1,5 +1,3 @@
-<div><%= @goal.errors[:title].first %></div>
-
 <div class="buttons has-addons">
   <%= link_to "Weekly", new_goal_path(horizon: "week"), remote: true, class: "button modal-button #{'is-select is-info' if @horizon == 'week'}" %>
   <%= link_to "Quarterly", new_goal_path(horizon: "quarter"), remote: true, class: "button modal-button #{'is-select is-info' if @horizon == 'quarter'}" %>
@@ -7,14 +5,14 @@
   <%= link_to "Life", new_life_goal_path, remote: true, class: "button modal-button #{'is-select is-info' if request.path_info.include?('life_goals')}" %>
 </div>
 
-<%= form_with model: @goal, url: goals_path(horizon: @horizon), id: "new-goal-form", local: true do |f| %>
+<%= form_with model: @goal, url: goals_path(horizon: @horizon), id: "new-goal-form", local: true, data:{remote: true} do |f| %>
   <p><%= @goal.errors[:date].first %></p>
   <div class="field">
     <label class="heading">Title</label>
     <div class="control">
       <%= f.text_field :title, class: "input"%>
     </div>
-    <p><%= @goal.errors[:title].first %></p>
+    <p id="title-error" class="help is-danger"><%= @goal.errors[:title].first %></p>
   </div>
   <div class="field">
     <label class="heading">Description</label>
@@ -56,7 +54,7 @@
   
   <div class="field is-grouped">
     <div class="control">
-      <%= f.submit "Save", class: "button is-primary is-hidden", id: "new-save-button" %>
+      <%= f.submit "Save", class: "button is-primary is-hidden", id: "new-save-button", remote: true %>
     </div>
     <div class="control">
       <%= link_to "Cancel", goals_path(horizon: @horizon), class: "button is-hidden", id: "new-cancel-button" %>
