@@ -22,9 +22,11 @@ class LifeGoalsController < ApplicationController
   def create
     @life_goal = LifeGoal.new(life_goal_params.merge(user: current_user))
     if @life_goal.save
-      redirect_to action: "index"
+      render js: "window.location='#{life_goals_path}'"
     else
-      render 'new'
+      respond_to do |format|
+        format.js 
+      end
     end
   end
 
