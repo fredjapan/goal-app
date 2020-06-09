@@ -1,0 +1,7 @@
+$('#title-error').html('<%= @life_goal.errors[:title].first %>');
+<% if @life_goal.errors[:title].any? %>
+  $("#life_goal_title").addClass("is-danger");
+  $( "#life_goal_title" ).focus();
+<% else %>
+  $("#life_goal_title").removeClass("is-danger");
+<% end %>

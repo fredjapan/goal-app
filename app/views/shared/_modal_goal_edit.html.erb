@@ -1,12 +1,12 @@
 <% @term = params[:term] %>
-<%= form_with model: @goal, url: goal_path(@goal, horizon: @horizon), local: true do |f| %>
+<%= form_with model: @goal, url: goal_path(@goal, horizon: @horizon), local: true, data:{remote: true} do |f| %>
   
   <div class="field"> 
     <p class="heading">Title</p>
     <div class="control">
       <%= f.text_field :title, class: "input" %>
     </div>
-    <p><%= @goal.errors[:title].first %></p>
+    <p id="title-error" class="help is-danger"><%= @goal.errors[:title].first %></p>
   </div>
 
   <div class="field">

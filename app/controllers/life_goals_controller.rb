@@ -39,9 +39,11 @@ class LifeGoalsController < ApplicationController
     id = params[:id]
     @life_goal = LifeGoal.find(id)
     if @life_goal.update(life_goal_params)
-      redirect_to action: "index"
+      render js: "window.location='#{life_goals_path}'"
     else
-      render 'edit'
+      respond_to do |format|
+        format.js 
+      end
     end
   end
 
