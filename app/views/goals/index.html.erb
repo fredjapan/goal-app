@@ -36,8 +36,17 @@
           <div class="level">
             <div class="level-left">
               <div class="level-item subtitle">
-                <%= @horizon.capitalize%> until ~
-                <%= term_start.send("end_of_#{@horizon}") %>
+                <% end_of_horizon = term_start.send("end_of_#{@horizon}")%>
+                <%if @horizon == "week" %>
+                  <%= @horizon.capitalize%> until 
+                  <%= end_of_horizon.strftime("%b. #{end_of_horizon.day.ordinalize} (%a), %Y") %>
+                <% elsif @horizon == "quarter" %>
+                  Q<%= ((end_of_horizon.month.to_f)/3).ceil %>
+                  <%= end_of_horizon.strftime("%Y") %>
+                  (until end of <%= end_of_horizon.strftime("%B")%>)
+                <% elsif @horizon == "year" %>
+                  <%= end_of_horizon.strftime("%Y")%>
+                <% end %>
               </div>
             </div>
             <div class="level-right">
