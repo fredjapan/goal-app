@@ -131,9 +131,8 @@ class GoalsController < ApplicationController
     @parent_horizon = parent_horizon(@horizon)
     @parent_goals = parent_goals(@horizon, "term_previous").where(user: current_user)
     @goal = Goal.update(params[:goal].keys, params[:goal].values)
-    @goal.reject { |p| p.errors.empty? }
-    if @goal.empty?
-      goals_path(horizon: @horizon, term: "term_this")
+    if @goal.map { |goal| goal.errors.any? }.exclude?(true)
+      redirect_to goals_path(horizon: @horizon, term: "term_this")
     else
       render edit_multiple_goals_path
     end
