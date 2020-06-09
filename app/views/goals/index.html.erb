@@ -69,6 +69,7 @@
             </tr>
             <% @i = 1%>
             <%= hidden_field_tag "horizon", @horizon %>
+            <%= hidden_field_tag "term", @term %>
             <% goals.each do |goal|%>
               <tr>
                 <td>
