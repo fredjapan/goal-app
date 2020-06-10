@@ -48,7 +48,6 @@
             <td class="field">
               <div class="control">
                 <div class="select">
-                  
                   <%= f.select :parent_goal_id, options_from_collection_for_select(@parent_goals, 'id', 'title', goal.parent_goal_id), include_blank: true %>
                 </div>
               </div>
