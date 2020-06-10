@@ -148,3 +148,12 @@ $custom-dark: #151b26;
 #modal-footer, #modal-header {
   width: 100%;
 }
+
+.no-results {
+  text-align: center;
+  margin-top: 80px;
+}
+
+.no-results #no-results-image {
+  width: 100px;
+}

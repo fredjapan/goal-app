@@ -14,6 +14,7 @@ class SessionsController < ApplicationController
        redirect_to root_path
     else
        redirect_to '/login'
+       flash[:error] = "The combination email and password is incorrect."
     end
   end
 

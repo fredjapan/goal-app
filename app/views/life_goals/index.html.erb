@@ -1,45 +1,53 @@
 <div class="section">
 
   <div>
-    <%= form_with model: @life_goals, url: edit_multiple_life_goals_path, local: true, method: :get do %>
-      <div class="level">
-        <div class="level-left">
-          <div class="level-item subtitle">
-          </div>
-        </div>
-        <div class="level-right">
-          <div class="level-item">
-            <%= submit_tag "Update goals", class: "button is-small is-outlined is-primary level-item" %>
-          </div>
-        </div>
+    <% if @life_goals.count == 0 %>
+      <div class="no-results">
+        <%= image_tag "no_results.png", id: "no-results-image" %>
+        <div class="has-text-grey">You don't have any life goal!</div>
       </div>
-      <table class="table is-fullwidth">
-        <tr>
-          <th></th>
-          <th>ROLE - I want to be...</th>
-          <th>WHAT - It looks/feels like...</th>
-          <th>WHY - In order to...</th>
-        </tr>
-        <% @i = 1%>
-        <% @life_goals.each do |life_goal| %>
-          <tr> 
-            <td>
-              #<%= @i %>
-              <%= hidden_field_tag "life_goal_ids[]", life_goal.id %>
-            </td>
-            <td>
-                <%= link_to life_goal.title, life_goal_path(life_goal), class: "modal-button",remote: true %>
-            </td>
-            <td>
-              <%= simple_format(life_goal.what) %>
-            </td>
-            <td>
-              <%= simple_format(life_goal.why) %>
-            </td>
+    <% else %>
+      <%= form_with model: @life_goals, url: edit_multiple_life_goals_path, local: true, method: :get do %>
+        <div class="level">
+          <div class="level-left">
+            <div class="level-item subtitle">
+            </div>
+          </div>
+          <div class="level-right">
+            <div class="level-item">
+              <%= submit_tag "Update goals", class: "button is-small is-outlined is-primary level-item" %>
+            </div>
+          </div>
+        </div>
+
+        <table class="table is-fullwidth">
+          <tr>
+            <th></th>
+            <th>ROLE - I want to be...</th>
+            <th>WHAT - It looks/feels like...</th>
+            <th>WHY - In order to...</th>
           </tr>
-          <% @i += 1 %>
-        <% end %>
-      </table>
+          <% @i = 1%>
+          <% @life_goals.each do |life_goal| %>
+            <tr> 
+              <td>
+                #<%= @i %>
+                <%= hidden_field_tag "life_goal_ids[]", life_goal.id %>
+              </td>
+              <td>
+                  <%= link_to life_goal.title, life_goal_path(life_goal), class: "modal-button",remote: true %>
+              </td>
+              <td>
+                <%= simple_format(life_goal.what) %>
+              </td>
+              <td>
+                <%= simple_format(life_goal.why) %>
+              </td>
+            </tr>
+            <% @i += 1 %>
+          <% end %>
+        </table>
+      <% end %>
     <% end %>
   </div>
 </div>

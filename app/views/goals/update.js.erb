@@ -1,0 +1,7 @@
+$('#title-error').html('<%= p.errors[:title].first %>');
+<% if p.errors[:title].any? %>
+  $("#goal_title").addClass("is-danger");
+  $( "#goal_title" ).focus();
+<% else %>
+  $("#goal_title").removeClass("is-danger");
+<% end %>

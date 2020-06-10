@@ -22,9 +22,11 @@ class LifeGoalsController < ApplicationController
   def create
     @life_goal = LifeGoal.new(life_goal_params.merge(user: current_user))
     if @life_goal.save
-      redirect_to action: "index"
+      render js: "window.location='#{life_goals_path}'"
     else
-      render 'new'
+      respond_to do |format|
+        format.js 
+      end
     end
   end
 
@@ -37,9 +39,11 @@ class LifeGoalsController < ApplicationController
     id = params[:id]
     @life_goal = LifeGoal.find(id)
     if @life_goal.update(life_goal_params)
-      redirect_to action: "index"
+      render js: "window.location='#{life_goals_path}'"
     else
-      render 'edit'
+      respond_to do |format|
+        format.js 
+      end
     end
   end
 
@@ -62,7 +66,11 @@ class LifeGoalsController < ApplicationController
 
   def update_multiple
     @life_goals = LifeGoal.update(params[:life_goal].keys, params[:life_goal].values)
-    redirect_to action: "index"
+    if @life_goals.map { |goal| goal.errors.any? }.exclude?(true)
+      redirect_to life_goals_path(horizon: @horizon, term: "term_this")
+    else
+      render edit_multiple_life_goals_path
+    end
   end
 
   private

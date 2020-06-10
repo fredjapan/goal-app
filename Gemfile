@@ -57,3 +57,5 @@ gem 'bulma-extensions-rails'
 gem 'jquery-rails'
 
 gem 'kaminari', '~> 1.2.1'
+
+gem 'awesome_print', '~> 1.8'

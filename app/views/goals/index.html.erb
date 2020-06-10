@@ -14,6 +14,21 @@
     </ul>
   </div>
 
+  <% if @goals.count == 0 %>
+    <div class="no-results">
+      <%= image_tag "no_results.png", id: "no-results-image" %>
+      <div class="has-text-grey">You don't have any goal for 
+      <% if @term == "term_previous" %>
+        these past few <%=@horizon%>s!
+      <% elsif @term == "term_this" %>
+        this <%=@horizon%>!
+      <% elsif @term == "term_next" %>
+        next <%=@horizon%>!
+      <% end %>
+      </div>
+    </div>
+  <% end %>
+
   <% @goals.group_by{ |goal| goal.date.send("beginning_of_#{@horizon}")}.sort.reverse.each do |term_start, goals|%>
     <div id="term-group" class="container">
       <%= form_with model: @goal, url: edit_multiple_goals_path, local: true, method: :get do %>
@@ -21,8 +36,17 @@
           <div class="level">
             <div class="level-left">
               <div class="level-item subtitle">
-                <%= @horizon.capitalize%> until ~
-                <%= term_start.send("end_of_#{@horizon}") %>
+                <% end_of_horizon = term_start.send("end_of_#{@horizon}")%>
+                <%if @horizon == "week" %>
+                  <%= @horizon.capitalize%> until 
+                  <%= end_of_horizon.strftime("%b. #{end_of_horizon.day.ordinalize} (%a), %Y") %>
+                <% elsif @horizon == "quarter" %>
+                  Q<%= ((end_of_horizon.month.to_f)/3).ceil %>
+                  <%= end_of_horizon.strftime("%Y") %>
+                  (until end of <%= end_of_horizon.strftime("%B")%>)
+                <% elsif @horizon == "year" %>
+                  Year <%= end_of_horizon.strftime("%Y")%>
+                <% end %>
               </div>
             </div>
             <div class="level-right">
@@ -54,6 +78,7 @@
             </tr>
             <% @i = 1%>
             <%= hidden_field_tag "horizon", @horizon %>
+            <%= hidden_field_tag "term", @term %>
             <% goals.each do |goal|%>
               <tr>
                 <td>
@@ -71,7 +96,7 @@
                     <% if @horizon == "year" %>
                       <%= link_to @lifegoals.find(goal.parent_goal_id).title, life_goal_path(goal.parent_goal_id), class: "modal-button",remote: true %>
                     <% else%>
-                      <%= link_to @allgoals.find(goal.parent_goal_id).title, goal_path(goal.parent_goal_id,horizon: @horizon), class: "modal-button",remote: true %>
+                      <%= link_to @allgoals.find(goal.parent_goal_id).title, goal_path(goal.parent_goal_id,horizon: @horizon, term: @term), class: "modal-button",remote: true %>
                     <% end %>
                   <% end %>
                 </td>

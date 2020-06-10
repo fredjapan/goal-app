@@ -59,14 +59,17 @@ class GoalsController < ApplicationController
     @term = params[:term]
     @goal = Goal.new(goal_params.merge(user: current_user))
     if @goal.save
-      redirect_to action: "index", horizon: @goal[:horizon], term: 
+      render js: "window.location='#{goals_path(horizon: @horizon, term:
         if @goal.date >= DateTime.current.to_date.send("beginning_of_#{@horizon}") && @goal.date <= DateTime.current.to_date.send("end_of_#{@horizon}")
           "term_this"
         elsif @goal.date >= helpers.next_term(@horizon).from_now.to_date.send("beginning_of_#{@horizon}") && @goal.date <= helpers.next_term(@horizon).from_now.to_date.send("end_of_#{@horizon}")
           "term_next"
         end
+      )}'"
     else
-      render 'new'
+      respond_to do |format|
+        format.js 
+      end
     end
   end
 
@@ -76,16 +79,19 @@ class GoalsController < ApplicationController
     id = params[:id]
     @goal = Goal.find(id)
     if @goal.update(goal_params)
-      redirect_to action: "index", horizon: @goal[:horizon], term: 
-      if @goal.date >= DateTime.current.to_date.send("beginning_of_#{@horizon}") && @goal.date <= DateTime.current.to_date.send("end_of_#{@horizon}")
-        "term_this"
-      elsif @goal.date >= helpers.next_term(@horizon).from_now.to_date.send("beginning_of_#{@horizon}") && @goal.date <= helpers.next_term(@horizon).from_now.to_date.send("end_of_#{@horizon}")
-        "term_next"
-      elsif @goal.date < DateTime.current.to_date.send("beginning_of_#{@horizon}")
-        "term_previous"
-      end
+      render js: "window.location='#{goals_path(horizon: @horizon, term: 
+        if @goal.date >= DateTime.current.to_date.send("beginning_of_#{@horizon}") && @goal.date <= DateTime.current.to_date.send("end_of_#{@horizon}")
+          "term_this"
+        elsif @goal.date >= helpers.next_term(@horizon).from_now.to_date.send("beginning_of_#{@horizon}") && @goal.date <= helpers.next_term(@horizon).from_now.to_date.send("end_of_#{@horizon}")
+          "term_next"
+        elsif @goal.date < DateTime.current.to_date.send("beginning_of_#{@horizon}")
+          "term_previous"
+        end
+      )}'"
     else
-      render 'edit'
+      respond_to do |format|
+        format.js 
+      end
     end
   end
 
@@ -113,6 +119,7 @@ class GoalsController < ApplicationController
 
   def edit_multiple
     @horizon = params[:horizon]
+    @term = params[:term]
     @goal = Goal.find(params[:goal_ids])
     @parent_horizon = parent_horizon(@horizon)
     @parent_goals = parent_goals(@horizon, "term_previous").where(user: current_user)
@@ -121,8 +128,14 @@ class GoalsController < ApplicationController
   def update_multiple
     @horizon = params[:horizon]
     @term = params[:term]
+    @parent_horizon = parent_horizon(@horizon)
+    @parent_goals = parent_goals(@horizon, "term_previous").where(user: current_user)
     @goal = Goal.update(params[:goal].keys, params[:goal].values)
-    redirect_to action: "index", horizon: @horizon, term: "term_this"
+    if @goal.map { |goal| goal.errors.any? }.exclude?(true)
+      redirect_to goals_path(horizon: @horizon, term: "term_this")
+    else
+      render edit_multiple_goals_path
+    end
   end
 
   private

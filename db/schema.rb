@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_04_084705) do
+ActiveRecord::Schema.define(version: 2020_06_06_123305) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,8 @@ ActiveRecord::Schema.define(version: 2020_06_04_084705) do
     t.string "horizon"
     t.integer "parent_goal_id"
     t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_goals_on_user_id"
   end
 
@@ -31,6 +33,8 @@ ActiveRecord::Schema.define(version: 2020_06_04_084705) do
     t.text "what"
     t.text "why"
     t.bigint "user_id"
+    t.datetime "created_at", default: "2020-06-06 12:42:28", null: false
+    t.datetime "updated_at", default: "2020-06-06 12:42:28", null: false
     t.index ["user_id"], name: "index_life_goals_on_user_id"
   end
 
