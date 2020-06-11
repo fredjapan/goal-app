@@ -69,8 +69,10 @@ document.addEventListener('DOMContentLoaded', function () {
       });
   }
 
-  $(document).on("click" , ".close-modal", function (){      //close modal with custom button                 
-    $(".modal").removeClass("is-active");
+  $(function() {
+    $(document).on("click" , ".close-modal", function (){      //close modal with custom button                 
+      $(".modal").removeClass("is-active");
+    });
   });
 
   // Functions
