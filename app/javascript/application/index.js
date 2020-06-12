@@ -30,6 +30,21 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     });
 
+  //Notification Fade out
+
+  jQuery(function($){ 
+
+    var e = $('.notification'); 
+    e.fadeIn(); 
+    e.queue(function(){ 
+      setTimeout(function(){ 
+        e.dequeue(); 
+      }, 3000 ); 
+    }); 
+    e.fadeOut('slow'); 
+    
+    }); 
+
   // Modals
 
   var rootEl = document.documentElement;

@@ -15,15 +15,14 @@ $custom-dark: #151b26;
 
 .notification-container {
   position: fixed;
-  top: 40px;
-  width: 100%;
-  text-align: center;
+  bottom: 40px;
+  left: 20px;
   z-index: 1000;
 }
 
 .notification {
   margin: auto;
-  width: 600px;
+  width: 350px;
   text-align: left;
 }
 
