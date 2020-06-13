@@ -5,6 +5,7 @@ class Goal < ActiveRecord::Base
   validates :date, presence: {message: "Goals must have a deadline."}
   validates :horizon, presence: {message: "Goals must have a horizon."}
   validates :horizon, inclusion: { in: %w(week quarter year), message: "%{value} is not a valid horizon" }
+  validates :achievement, inclusion: { in: ['achieved', 'partially achieved', 'failed'], message: "%{value} is not a valid achievement" }
 
   belongs_to :user
 
