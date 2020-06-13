@@ -23,6 +23,7 @@ class GoalsController < ApplicationController
     id = params[:id]
     @goal = Goal.find(id)
     @parent_goal = parent_goal(@goal.parent_goal_id, @horizon)
+    @children_goals = children_goals(@goal.id, @horizon)
     respond_to do |format|
       format.js
     end
@@ -183,6 +184,16 @@ class GoalsController < ApplicationController
 
   def parent_horizon_start(horizon)
     DateTime.current.to_date.send("beginning_of_#{parent_horizon(horizon)}")
+  end
+
+  def children_goals(id, horizon)
+    if horizon == "quarter"
+      Goal.where(horizon: "week").where(parent_goal_id: id)
+    elsif horizon == "year"
+      Goal.where(horizon: "year").where(parent_goal_id: id)
+    else
+      nil
+    end
   end
   
 end

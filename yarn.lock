@@ -1552,11 +1552,6 @@ bulma-extensions@^6.2.7:
   resolved "https://registry.yarnpkg.com/bulma-extensions/-/bulma-extensions-6.2.7.tgz#f9f4d1478a7ac1606ae8db1e765aa45e3f12bb31"
   integrity sha512-y3dHsxlCYkuxUg87KKN9H4InM8NCk8tdnrlxLkYak8sd2WQdllg3wP2Nv41lj8X46uPXX2ADP0MO65LlXPHt/Q==
 
-bulma-toast@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/bulma-toast/-/bulma-toast-2.0.1.tgz#8c0e929efa52e124a17d53f55fc17e02c3b0186a"
-  integrity sha512-py63dWP7tD/FmmW+jRUaA+G8mV66T+R/WNaYU5INvtweIhqGU1DwiS/rm0xjJ1wLettEegBvuWNpRhYmD3PGJg==
-
 bulma@^0.8.2:
   version "0.8.2"
   resolved "https://registry.yarnpkg.com/bulma/-/bulma-0.8.2.tgz#5d928f16ed4a84549c2873f95c92c38c69c631a7"

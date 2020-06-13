@@ -96,4 +96,12 @@ document.addEventListener('DOMContentLoaded', function () {
       return Array.prototype.slice.call(document.querySelectorAll(selector), 0);
   }
 
+  // Dropdown toggle
+
+  var dropdown = document.querySelector('.dropdown');
+  dropdown.addEventListener('click', function(event) {
+    event.stopPropagation();
+    dropdown.classList.toggle('is-active');
+  });
+
 });
