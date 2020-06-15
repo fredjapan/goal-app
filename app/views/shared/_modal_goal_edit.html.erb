@@ -39,11 +39,13 @@
         <label for="radio-nextterm-<%= @goal.id %>">
           Next <%= @horizon %>
         </label>
-        <%= f.radio_button :date, 2020-01-01, id: "radio-customterm", class: "is-checkradio", onclick: "customeDate()" %>
+        <% custom_date = "2020-01-01" %>
+        <%= f.radio_button :date, "2020-01-01", id: "radio-customterm", class: "is-checkradio", onclick: "customeDate()" %>
         <label for="radio-customterm">
           Custom
         </label>
-        <input type="date" id="date-picker" class="is-hidden">
+        <%= f.date_field :date, id: "date-picker", class: "is-hidden" %>
+        
       </div>
     <%end%>
     <p><%= @goal.errors[:date].first %></p>
