@@ -35,13 +35,15 @@
   <div><%= simple_format(@goal.description) %></div>
 </div>
 <br/>
-<div class="">
-  <div class="heading">Children Goals</div>
-  <div class="bullet children-goals">
-    <ul>
-    <% @children_goals.each do |goal| %>
-      <li class=""><%= goal.title %></li>
-    <% end %>
-    </ul>
+<% if @horizon != "week" %>
+  <div class="">
+    <div class="heading">Children Goals</div>
+    <div class="bullet children-goals">
+      <ul>
+      <% @children_goals.each do |goal| %>
+        <li class=""><%= goal.title %></li>
+      <% end %>
+      </ul>
+    </div>
   </div>
-</div>
+<% end %>

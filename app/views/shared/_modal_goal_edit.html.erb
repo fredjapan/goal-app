@@ -29,16 +29,21 @@
     <% if @goal.this_term?(@horizon) || @goal.next_term?(@horizon) %>
     <p class="heading">Due Date</p>
       <div class="control">
-        <%= f.radio_button :date, DateTime.current.to_date.send("beginning_of_#{@horizon}").strftime('%Y-%m-%d'),
-        :checked => !!(@goal.this_term?(@horizon)), id: "radio-thisterm-#{@goal.id}", class: "is-checkradio" %>
+        <%= f.radio_button :date, DateTime.current.to_date.send("end_of_#{@horizon}").strftime('%Y-%m-%d'),
+        :checked => !!(@goal.this_term?(@horizon)), id: "radio-thisterm-#{@goal.id}", class: "is-checkradio", onclick: "customeDate()" %>
         <label for="radio-thisterm-<%= @goal.id %>">
           This <%= @horizon %>
         </label>
         <%= f.radio_button :date, next_term(@horizon).from_now.to_date.send("end_of_#{@horizon}").strftime('%Y-%m-%d'),
-        :checked => !!(@goal.next_term?(@horizon)), id: "radio-nextterm-#{@goal.id}", class: "is-checkradio" %>
+        :checked => !!(@goal.next_term?(@horizon)), id: "radio-nextterm-#{@goal.id}", class: "is-checkradio", onclick: "customeDate()" %>
         <label for="radio-nextterm-<%= @goal.id %>">
           Next <%= @horizon %>
         </label>
+        <%= f.radio_button :date, 2020-01-01, id: "radio-customterm", class: "is-checkradio", onclick: "customeDate()" %>
+        <label for="radio-customterm">
+          Custom
+        </label>
+        <input type="date" id="date-picker" class="is-hidden">
       </div>
     <%end%>
     <p><%= @goal.errors[:date].first %></p>
@@ -64,3 +69,12 @@
     <i class="fas fa-times"></i>
   </span>
 <% end %>
+
+<script>
+function customeDate() {
+  if (document.getElementById('radio-customterm').checked) {
+      document.getElementById('date-picker').classList.remove("is-hidden");;
+  }
+  else document.getElementById('date-picker').classList.add("is-hidden");;
+}
+</script>

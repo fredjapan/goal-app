@@ -55,7 +55,7 @@
             <td class="field">
               <% if goal.this_term?(@horizon) || goal.next_term?(@horizon) %>
                 <div class="control">
-                  <%= f.radio_button :date, DateTime.current.to_date.send("beginning_of_#{@horizon}").strftime('%Y-%m-%d'),
+                  <%= f.radio_button :date, DateTime.current.to_date.send("end_of_#{@horizon}").strftime('%Y-%m-%d'),
                   :checked => !!(goal.this_term?(@horizon)), id: "radio-thisweek-#{goal.id}", class: "is-checkradio" %>
                   <label for="radio-thisweek-<%= goal.id %>">
                     This <%= @horizon %>
