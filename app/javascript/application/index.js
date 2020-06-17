@@ -96,12 +96,20 @@ document.addEventListener('DOMContentLoaded', function () {
       return Array.prototype.slice.call(document.querySelectorAll(selector), 0);
   }
 
-  // Dropdown toggle
+  // Custom Date date picker
 
-  var dropdown = document.querySelector('.dropdown');
-  dropdown.addEventListener('click', function(event) {
-    event.stopPropagation();
-    dropdown.classList.toggle('is-active');
-  });
+  window.customeDate = function() {
+    if (document.getElementById('radio-customterm').checked) {
+      document.getElementById('date-picker').classList.remove("is-hidden");
+    }
+    else if (document.getElementById('radio-thisterm').checked) {
+    document.getElementById('date-picker').classList.add("is-hidden");
+    document.getElementById('date-picker').value=document.getElementById('radio-thisterm').value;
+    }
+    else if (document.getElementById('radio-nextterm').checked) {
+    document.getElementById('date-picker').classList.add("is-hidden");
+    document.getElementById('date-picker').value=document.getElementById('radio-nextterm').value;
+    }
+  }
 
 });
