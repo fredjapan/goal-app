@@ -59,3 +59,9 @@ gem 'jquery-rails'
 gem 'kaminari', '~> 1.2.1'
 
 gem 'awesome_print', '~> 1.8'
+
+gem "activesupport", ">= 6.0.3.1"
+
+gem "actionpack", ">= 6.0.3.1"
+
+gem "activestorage", ">= 6.0.3.1"
