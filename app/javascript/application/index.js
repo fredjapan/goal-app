@@ -30,6 +30,21 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     });
 
+  //Notification Fade out
+
+  jQuery(function($){ 
+
+    var e = $('.notification'); 
+    e.fadeIn(); 
+    e.queue(function(){ 
+      setTimeout(function(){ 
+        e.dequeue(); 
+      }, 3000 ); 
+    }); 
+    e.fadeOut('slow'); 
+    
+    }); 
+
   // Modals
 
   var rootEl = document.documentElement;
@@ -69,14 +84,32 @@ document.addEventListener('DOMContentLoaded', function () {
       });
   }
 
-  $(document).on("click" , ".close-modal", function (){      //close modal with custom button                 
-    $(".modal").removeClass("is-active");
+  $(function() {
+    $(document).on("click" , ".close-modal", function (){      //close modal with custom button                 
+      $(".modal").removeClass("is-active");
+    });
   });
 
   // Functions
 
   function getAll(selector) {
       return Array.prototype.slice.call(document.querySelectorAll(selector), 0);
+  }
+
+  // Custom Date date picker
+
+  window.customeDate = function(id) {
+    if (document.getElementById('radio-customterm-' + id).checked) {
+      document.getElementById('date-picker-' + id).classList.remove("is-hidden");
+    }
+    else if (document.getElementById('radio-thisterm-' + id).checked) {
+    document.getElementById('date-picker-' + id).classList.add("is-hidden");
+    document.getElementById('date-picker-' + id).value=document.getElementById('radio-thisterm-' + id).value;
+    }
+    else if (document.getElementById('radio-nextterm-' + id).checked) {
+    document.getElementById('date-picker-' + id).classList.add("is-hidden");
+    document.getElementById('date-picker-' + id).value=document.getElementById('radio-nextterm-' + id).value;
+    }
   }
 
 });

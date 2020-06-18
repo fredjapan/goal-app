@@ -30,10 +30,20 @@
   </div>
 </div>
 
-<div>
+<div class="">
   <div class="heading">Description</div>
   <div><%= simple_format(@goal.description) %></div>
 </div>
-
-
-
+<br/>
+<% if @horizon != "week" %>
+  <div class="">
+    <div class="heading">Children Goals</div>
+    <div class="bullet children-goals">
+      <ul>
+      <% @children_goals.each do |goal| %>
+        <li class=""><%= goal.title %></li>
+      <% end %>
+      </ul>
+    </div>
+  </div>
+<% end %>

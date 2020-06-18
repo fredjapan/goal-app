@@ -9,7 +9,8 @@ class PagesController < ApplicationController
     def achievment_percentage(horizon, achievement)
       total_goal_withachievment = Goal.where(horizon: horizon).where.not(achievement: [nil, ""]).where(user: current_user).count
       goal_achievement_count = Goal.where(horizon: horizon, achievement: achievement).where(user: current_user).count
-      goal_achievement_count.to_f / total_goal_withachievment.to_f
+      nan = goal_achievement_count.to_f / total_goal_withachievment.to_f
+      ((nan.is_a?(Float) || nan.is_a?(BigDecimal)) && nan.nan?) ? 0 : nan
     end
     
     @goal_week_achieved_percentage = achievment_percentage("week", "achieved")

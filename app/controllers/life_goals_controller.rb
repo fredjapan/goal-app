@@ -7,6 +7,7 @@ class LifeGoalsController < ApplicationController
   def show
     id = params[:id]
     @life_goal = LifeGoal.find(id)
+    @children_goals = children_goals(@life_goal.id)
     respond_to do |format|
       format.js
     end
@@ -77,6 +78,10 @@ class LifeGoalsController < ApplicationController
 
   def life_goal_params
     params.require(:life_goal).permit(:title, :what, :why)
+  end
+
+  def children_goals(id)
+    Goal.where(horizon: "year").where(parent_goal_id: id)
   end
 
 end
