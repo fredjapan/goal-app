@@ -29,20 +29,20 @@
     <p class="heading">Due Date</p>
     <div class="control">
       <%= f.radio_button :date, DateTime.current.to_date.send("end_of_#{@horizon}").strftime('%Y-%m-%d'),
-      :checked => !!(@goal.this_term?(@horizon)), id: "radio-thisterm", class: "is-checkradio", onclick: "customeDate()" %>
-      <label for="radio-thisterm">
+      :checked => !!(@goal.this_term?(@horizon)), id: "radio-thisterm-#{@goal.id}", class: "is-checkradio", onclick: "customeDate(#{@goal.id})" %>
+      <label for="radio-thisterm-<%= @goal.id %>">
         This <%= @horizon %>
       </label>
       <%= f.radio_button :date, next_term(@horizon).from_now.to_date.send("end_of_#{@horizon}").strftime('%Y-%m-%d'),
-      :checked => !!(@goal.next_term?(@horizon)), id: "radio-nextterm", class: "is-checkradio", onclick: "customeDate()" %>
-      <label for="radio-nextterm">
+      :checked => !!(@goal.next_term?(@horizon)), id: "radio-nextterm-#{@goal.id}", class: "is-checkradio", onclick: "customeDate(#{@goal.id})" %>
+      <label for="radio-nextterm-<%= @goal.id %>">
         Next <%= @horizon %>
       </label>
-      <%= f.radio_button :date, "", :checked => !(!!(@goal.this_term?(@horizon)) || !!(@goal.next_term?(@horizon))), id: "radio-customterm", class: "is-checkradio", onclick: "customeDate()" %>
-      <label for="radio-customterm">
+      <%= f.radio_button :date, "", :checked => !(!!(@goal.this_term?(@horizon)) || !!(@goal.next_term?(@horizon))), id: "radio-customterm-#{@goal.id}", class: "is-checkradio", onclick: "customeDate(#{@goal.id})" %>
+      <label for="radio-customterm-<%= @goal.id %>">
         Custom
       </label>
-        <%= f.date_field :date, value: @goal.date,id: "date-picker", class: (params[:term]=='term_previous' ? "" : "is-hidden") %>
+      <%= f.date_field :date, value: @goal.date,id: "date-picker-#{@goal.id}", class: (params[:term]=='term_previous' ? "" : "is-hidden") %>
     </div>
     <p><%= @goal.errors[:date].first %></p>
   </div>

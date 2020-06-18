@@ -98,17 +98,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Custom Date date picker
 
-  window.customeDate = function() {
-    if (document.getElementById('radio-customterm').checked) {
-      document.getElementById('date-picker').classList.remove("is-hidden");
+  window.customeDate = function(id) {
+    if (document.getElementById('radio-customterm-' + id).checked) {
+      document.getElementById('date-picker-' + id).classList.remove("is-hidden");
     }
-    else if (document.getElementById('radio-thisterm').checked) {
-    document.getElementById('date-picker').classList.add("is-hidden");
-    document.getElementById('date-picker').value=document.getElementById('radio-thisterm').value;
+    else if (document.getElementById('radio-thisterm-' + id).checked) {
+    document.getElementById('date-picker-' + id).classList.add("is-hidden");
+    document.getElementById('date-picker-' + id).value=document.getElementById('radio-thisterm-' + id).value;
     }
-    else if (document.getElementById('radio-nextterm').checked) {
-    document.getElementById('date-picker').classList.add("is-hidden");
-    document.getElementById('date-picker').value=document.getElementById('radio-nextterm').value;
+    else if (document.getElementById('radio-nextterm-' + id).checked) {
+    document.getElementById('date-picker-' + id).classList.add("is-hidden");
+    document.getElementById('date-picker-' + id).value=document.getElementById('radio-nextterm-' + id).value;
     }
   }
 
