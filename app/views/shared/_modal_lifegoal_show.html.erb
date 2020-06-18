@@ -14,5 +14,17 @@
 <div class="heading">What</div>
 <div><%= simple_format(@life_goal.what) %></div>
 <br/>
+
 <div class="heading">Why</div>
 <div><%= simple_format(@life_goal.why) %></div>
+<br/>
+
+<div class="heading">Children Goals</div>
+<div class="bullet children-goals">
+  <ul>
+  <% @children_goals.each do |goal| %>
+    <li class=""><%= goal.title %></li>
+  <% end %>
+  </ul>
+</div>
+
