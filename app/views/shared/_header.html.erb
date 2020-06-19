@@ -36,6 +36,9 @@
             <div class="level-item">
               <div class="title">My Goal App</div>
             </div>
+            <div class="level-item">
+              <%= link_to "New Goal", new_goal_path(horizon: "week"), remote: true, class: "button is-primary modal-button" %>
+            </div>
           <% end %>
       </div>
     </div>
