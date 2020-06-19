@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
 
+  before_action :set_last_seen_at, if: proc { logged_in? }
   before_action :authorized
   helper_method :current_user
   helper_method :logged_in?
@@ -14,6 +15,12 @@ class ApplicationController < ActionController::Base
 
   def authorized
     redirect_to '/welcome' unless logged_in?
+  end
+
+  private
+
+  def set_last_seen_at
+    current_user.update_attribute(:last_seen_at, Time.current)
   end
 
 end

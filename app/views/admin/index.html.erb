@@ -1,0 +1,26 @@
+<div class="section">
+  <table class="admin table is-fullwidth">
+    <tr>
+      <th><%= sortable "email", "User" %></th>
+      <th><%= sortable "created_at", "Created at" %></th>
+      <th><%= sortable "last_seen_at", "Last Session" %></th>
+      <th><%= link_to "Goal", sort: "" %></th>
+    </tr>
+    <% @users.each do |user|%>
+      <tr>
+        <td>
+          <p><%= user.email %>
+        </td>
+        <td>
+          <p><%= user.created_at %>
+        </td>
+        <td>
+          <p><%= user.last_seen_at %>
+        </td>
+        <td>
+          <p><%= Goal.where(user: user).count + LifeGoal.where(user: user).count %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+</div>
