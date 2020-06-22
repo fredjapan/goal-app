@@ -17,6 +17,11 @@ class ApplicationController < ActionController::Base
     redirect_to '/welcome' unless logged_in?
   end
 
+  def authorize_admin
+    redirect_to root_path unless current_user.admin
+    #redirects to previous page
+  end
+
   private
 
   def set_last_seen_at

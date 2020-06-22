@@ -1,6 +1,9 @@
 class AdminController < ApplicationController
 
+  before_action :authorize_admin, only: :index
+  
   helper_method :sort_column, :sort_direction
+
   def index
     @users = User.order(sort_column + " " + sort_direction)
     @users = @users.map{|user| [user, user.goals.count + user.life_goals.count]}
