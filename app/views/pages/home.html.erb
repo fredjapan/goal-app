@@ -1,3 +1,4 @@
+<%= javascript_include_tag "https://www.gstatic.com/charts/loader.js" %>
 <div class="section">
   <div class="tile is-ancestor">
     <div class="tile is-vertical is-parent is-4">
@@ -64,3 +65,5 @@
     </footer>
   </div>
 </div>
+<br/>
+<%= line_chart @goal_week.group(:achievement).group_by_week(:date).count , colors: ["#3273dc", "#ffdd57", '#ff3860' ]  %>
