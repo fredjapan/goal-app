@@ -1,6 +1,10 @@
 class PagesController < ApplicationController
   
   def home
+    @goal_week = Goal.where(horizon: "week").where(user: current_user)
+    @goal_quarter = Goal.where(horizon: "quarter").where(user: current_user)
+    @goal_year = Goal.where(horizon: "year").where(user: current_user)
+    @goal_life = Goal.where(horizon: "life").where(user: current_user)
     @goal_week_count = Goal.where(horizon: "week").where(user: current_user).count
     @goal_quarter_count = Goal.where(horizon: "quarter").where(user: current_user).count
     @goal_year_count = Goal.where(horizon: "year").where(user: current_user).count
@@ -22,6 +26,21 @@ class PagesController < ApplicationController
     @goal_year_achieved_percentage = achievment_percentage("year", "achieved")
     @goal_year_partiallyachieved_percentage = achievment_percentage("year", "partially achieved")
     @goal_year_failed_percentage = achievment_percentage("year", "failed")
+
+    @chart_week = [
+      {
+        name: "Achieved", 
+        data: [["", @goal_week_achieved_percentage]]
+      },
+      {
+        name: "Partially Achieved", 
+        data: [["", @goal_week_partiallyachieved_percentage]]
+      },
+      {
+        name: "Failed", 
+        data: [["", @goal_week_failed_percentage]]
+      }
+    ]
   end
 
 end

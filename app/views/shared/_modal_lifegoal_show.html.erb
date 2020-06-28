@@ -10,21 +10,25 @@
   </div>
 </div>
     
+<% unless @life_goal.what.blank? %>
+  <div class="heading">What</div>
+  <div><%= simple_format(@life_goal.what) %></div>
+  <br/>
+<% end %>
 
-<div class="heading">What</div>
-<div><%= simple_format(@life_goal.what) %></div>
-<br/>
+<% unless @life_goal.why.blank? %>
+  <div class="heading">Why</div>
+  <div><%= simple_format(@life_goal.why) %></div>
+  <br/>
+<% end %>
 
-<div class="heading">Why</div>
-<div><%= simple_format(@life_goal.why) %></div>
-<br/>
-
-<div class="heading">Children Goals</div>
-<div class="bullet children-goals">
-  <ul>
-  <% @children_goals.each do |goal| %>
-    <li class=""><%= goal.title %></li>
-  <% end %>
-  </ul>
-</div>
-
+<% if @children_goals.count > 0 %>
+  <div class="heading">Children Goals</div>
+  <div class="bullet children-goals">
+    <ul>
+    <% @children_goals.each do |goal| %>
+      <li class=""><%= goal.title %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>

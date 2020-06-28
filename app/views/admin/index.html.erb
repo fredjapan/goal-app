@@ -1,0 +1,53 @@
+<div class="section">
+  <div class="level">
+    <div class="level-item has-text-centered">
+      <div>
+        <p class="heading">Users</p>
+        <p class="title"><%= User.count %></p>
+      </div>
+    </div>
+    <div class="level-item has-text-centered">
+      <div>
+        <p class="heading">Active Users</p>
+        <p class="title"><%= User.where('last_seen_at >= ?', 1.month.ago).count %></p>
+      </div>
+    </div>
+    <div class="level-item has-text-centered">
+      <div>
+        <p class="heading">Goals</p>
+        <p class="title"><%= Goal.count + LifeGoal.count %></p>
+      </div>
+    </div>
+    <div class="level-item has-text-centered">
+      <div>
+        <p class="heading">Av. Goals per User</p>
+        <p class="title"><%= (Goal.count + LifeGoal.count) / User.count %></p>
+      </div>
+    </div>
+  </div>
+
+  <table class="admin table is-fullwidth">
+    <tr>
+      <th><%= sortable "email", "User" %></th>
+      <th><%= sortable "created_at", "Created at" %></th>
+      <th><%= sortable "last_seen_at", "Last Session" %></th>
+      <th><%= link_to "Goals", params[:sort_by_goal] == "asc" ? "admin?sort_by_goal=desc" : "admin?sort_by_goal=asc" %></th>
+    </tr>
+    <% @users.each do |(user, totalGoals)| %>
+      <tr>
+        <td>
+          <p><%= user.email %>
+        </td>
+        <td>
+          <p><%= user.created_at %>
+        </td>
+        <td>
+          <p><%= user.last_seen_at %>
+        </td>
+        <td>
+          <p><%= totalGoals %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+</div>

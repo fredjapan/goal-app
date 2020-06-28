@@ -21,29 +21,33 @@
     <div><%= @goal.date %></div>
   </div>
   <div class="column">
-    <div class="heading">Parent Goal</div>
-    <div>
-      <% if @parent_goal.present? %>
+    <% if @parent_goal.present? %>
+      <div class="heading">Parent Goal</div>
+      <div>
         <%= @parent_goal.title %>
-      <% end %>
-    </div>
+      </div>
+    <% end %>
   </div>
 </div>
 
-<div class="">
-  <div class="heading">Description</div>
-  <div><%= simple_format(@goal.description) %></div>
-</div>
+<% unless @goal.description.blank? %>
+  <div class="">
+    <div class="heading">Description</div>
+    <div><%= simple_format(@goal.description) %></div>
+  </div>
+<% end %>
 <br/>
 <% if @horizon != "week" %>
-  <div class="">
-    <div class="heading">Children Goals</div>
-    <div class="bullet children-goals">
-      <ul>
-      <% @children_goals.each do |goal| %>
-        <li class=""><%= goal.title %></li>
-      <% end %>
-      </ul>
+  <% if @children_goals.count > 0 %>
+    <div class="">
+      <div class="heading">Children Goals</div>
+      <div class="bullet children-goals">
+        <ul>
+        <% @children_goals.each do |goal| %>
+          <li class=""><%= goal.title %></li>
+        <% end %>
+        </ul>
+      </div>
     </div>
-  </div>
+  <% end %>
 <% end %>

@@ -1,3 +1,4 @@
+<%= javascript_include_tag "https://www.gstatic.com/charts/loader.js" %>
 <div class="section">
   <div class="tile is-ancestor">
     <div class="tile is-vertical is-parent is-4">
@@ -47,3 +48,22 @@
     </div>
   </div>
 </div>
+
+<div id="modal-window" class="modal">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <div id="modal-header"></div>
+      <button id="modal-close-button" class="delete is-hidden" aria-label="close"></button>
+    </header>
+    <section id="modal-content" class="modal-card-body">
+      <!-- Content ... -->
+    </section>
+    <footer class="modal-card-foot">
+      <div id="modal-footer"></div>
+      <button class="button is-hidden" id="modal-close-button">Close</button>
+    </footer>
+  </div>
+</div>
+<br/>
+<%= line_chart @goal_week.group(:achievement).group_by_week(:date).count , colors: ["#3273dc", "#ffdd57", '#ff3860' ]  %>
