@@ -69,3 +69,5 @@ gem "activestorage", ">= 6.0.3.1"
 gem "chartkick"
 
 gem "groupdate"
+
+gem "activerecord", ">= 6.0.3.5"
